@@ -1,0 +1,205 @@
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+public class fadeAndMatChange : MonoBehaviour
+{
+    [System.Serializable]
+    public class _charMats
+    {
+        public Texture DLMat, HCMat;
+        public Sprite clipboard;
+        public string appDetails;
+        public string patientName;
+        public GameObject patientPrefab;
+        public GameObject handSphere;
+        public GameObject cardsInHand;
+        public Sprite DLsprite;
+    }
+
+    public Image transPanel;
+    public float fadeDelay;
+
+    public Material DL, HC;
+    public SpriteRenderer clipboard;
+    public Material shirt;
+    public List<_charMats> charMats;
+
+
+    public Sounds boolRef;//load scene bool reference
+
+    public BNG.Button redBTN;
+
+    public GameObject patient;
+    public Button btn;
+    public GameObject ghost;
+    public AudioSource source;
+
+    public Sounds illness, checkInApp;
+
+    public static AudioClip illnessClip, checkInAppClip;
+
+    public TMP_Text appText;
+    public TMP_Text checkInTextField;
+    public Image checkInScan;
+
+    public GameObject dialoguePanel2;
+
+    private void Awake()
+    {
+        //Playing Next Patient audio
+        if (boolRef.LoadScene_valid)
+        {
+            source.Play();
+        }
+    }
+
+    private void Start()
+    {
+        int patientIndex = PlayerPrefs.GetInt("patient");
+
+
+        //setting patient number
+        if (patientIndex > -1 && patientIndex < charMats.Count-1)
+        {
+            int x = patientIndex + 1;
+            PlayerPrefs.SetInt("patient", x);
+        }
+        else
+            PlayerPrefs.SetInt("patient", 0);
+
+        Debug.Log(patientIndex);
+        changeMat(patientIndex);
+
+        if (boolRef.LoadScene_valid)
+        {
+            patient.SetActive(true);
+            btn.interactable = true;
+            ghost.SetActive(false);
+            redBTN.enabled = false;
+        }
+    }
+
+
+    #region transition to check-In
+    public void transition()
+    {
+        StartCoroutine(FadeImage());
+        Debug.Log("transition");
+    }
+
+    IEnumerator FadeImage()
+    {
+        Debug.Log("fading");
+        yield return new WaitForSeconds(2f);
+        for (float i = 0; i <= 1; i += Time.deltaTime * 1f)
+        {
+            // set color with i as alpha
+            transPanel.color = new Color(0, 0, 0, i);
+            yield return null;
+        }
+
+        patient.SetActive(false);
+        SetCheckinPosition();
+
+        dialoguePanel2.SetActive(true);
+        patient.SetActive(true);
+
+        for (float i = 1; i >= 0; i -= Time.deltaTime * 1f)
+        {
+            // set color with i as alpha
+            transPanel.color = new Color(0, 0, 0, i);
+            yield return null;
+        }
+    }
+
+    private void SetCheckinPosition()
+    {
+        switch (patient.name)
+        {
+            case "Peter":
+                patient.transform.position = new Vector3(-32.6080017f, 0, -12.7550001f);
+                patient.transform.eulerAngles = new Vector3(0, 308.770355f, 0);
+                break;
+
+            case "John":
+                patient.transform.position = new Vector3(-32.6080017f, 0, -12.7550001f);
+                patient.transform.eulerAngles = new Vector3(0, 308.770355f, 0);
+                break;
+
+            case "Davin":
+                patient.transform.localPosition = new Vector3(0.239999995f, -2.15700006f, -0.379999995f);
+                patient.transform.eulerAngles = new Vector3(0, 106.290787f, 0);
+                break;
+
+            case "Emily":
+                patient.transform.localPosition = new Vector3(0.239999995f, -2.15700006f, -0.379999995f);
+                patient.transform.eulerAngles = new Vector3(0, 105.450195f, 0);
+                break;
+        }
+    }
+    #endregion
+
+    public void NextPatientCheck()
+    {
+        if (!boolRef.LoadScene_valid)
+        {
+            redBtnPress();
+        }
+
+        if (boolRef.LoadScene_valid)
+        {
+            SceneManager.LoadScene(0);
+        }
+        boolRef.LoadScene_valid = true;
+    }
+    void redBtnPress()
+    {
+        source.Play();
+        patient.SetActive(true);
+        btn.interactable = true;
+        ghost.SetActive(false);
+        redBTN.enabled = false;
+    }
+
+    void changeMat(int opt)
+    {
+        patient = charMats[opt].patientPrefab;
+        animateManager.instance.patient = patient;
+        animateManager.instance.handSphere = charMats[opt].handSphere;
+        animateManager.instance.cards = charMats[opt].cardsInHand;
+        DL.mainTexture = charMats[opt].DLMat;
+        HC.mainTexture = charMats[opt].HCMat;
+        clipboard.sprite = charMats[opt].clipboard;
+        illnessClip = illness.clips[opt].clip;
+        checkInAppClip = checkInApp.clips[opt].clip;
+        appText.text = charMats[opt].appDetails;
+        checkInTextField.text = charMats[opt].patientName;
+        checkInScan.sprite = charMats[opt].DLsprite;
+
+        /*switch (opt)
+        {
+            case 0:
+                shirt.color = Color.red;
+                break;
+            case 1:
+                shirt.color = Color.blue;
+                break;
+            case 2:
+                shirt.color = Color.green;
+                break;
+            case 3:
+                shirt.color = Color.yellow;
+                break;
+            case 4:
+                shirt.color = Color.cyan;
+                break;
+            default:
+                print("index outside of cases.");
+                break;
+        }*/
+    }
+}
