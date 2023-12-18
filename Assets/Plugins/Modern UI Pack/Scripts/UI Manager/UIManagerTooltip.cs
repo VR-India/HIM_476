@@ -2,64 +2,43 @@
 using UnityEngine.UI;
 using TMPro;
 
-namespace Michsky.UI.ModernUIPack
+namespace Michsky.MUIP
 {
     [ExecuteInEditMode]
     public class UIManagerTooltip : MonoBehaviour
     {
         [Header("Settings")]
-        public UIManager UIManagerAsset;
-        public bool webglMode = false;
+        [SerializeField] private UIManager UIManagerAsset;
 
         [Header("Resources")]
-        public Image background;
-        public TextMeshProUGUI text;
+        [SerializeField] private Image background;
+        [SerializeField] private TextMeshProUGUI text;
 
         void Awake()
         {
-            if (Application.isPlaying && webglMode == true)
-                return;
+            if (UIManagerAsset == null) { UIManagerAsset = Resources.Load<UIManager>("MUIP Manager"); }
 
-            try
+            this.enabled = true;
+
+            if (UIManagerAsset.enableDynamicUpdate == false)
             {
-                if (UIManagerAsset == null)
-                    UIManagerAsset = Resources.Load<UIManager>("MUIP Manager");
-
-                this.enabled = true;
-
-                if (UIManagerAsset.enableDynamicUpdate == false)
-                {
-                    UpdateTooltip();
-                    this.enabled = false;
-                }
+                UpdateTooltip();
+                this.enabled = false;
             }
-
-            catch { Debug.Log("<b>[Modern UI Pack]</b> No UI Manager found, assign it manually.", this); }
         }
 
-        void LateUpdate()
+        void Update()
         {
-            if (UIManagerAsset == null)
-                return;
-
-            if (UIManagerAsset.enableDynamicUpdate == true)
-                UpdateTooltip();
+            if (UIManagerAsset == null) { return; }
+            if (UIManagerAsset.enableDynamicUpdate == true) { UpdateTooltip(); }
         }
 
         void UpdateTooltip()
         {
-            if (Application.isPlaying && webglMode == true)
-                return;
-
-            try
-            {
-                background.color = UIManagerAsset.tooltipBackgroundColor;
-                text.color = UIManagerAsset.tooltipTextColor;
-                text.font = UIManagerAsset.tooltipFont;
-                text.fontSize = UIManagerAsset.tooltipFontSize;
-            }
-
-            catch { }
+            background.color = UIManagerAsset.tooltipBackgroundColor;
+            text.color = UIManagerAsset.tooltipTextColor;
+            text.font = UIManagerAsset.tooltipFont;
+            text.fontSize = UIManagerAsset.tooltipFontSize;
         }
     }
 }

@@ -1,4 +1,4 @@
-using Michsky.UI.ModernUIPack;
+using Michsky.MUIP;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,16 +20,32 @@ public class BillData
 
 public class BillDetails : MonoBehaviour
 {
-    public BillList _billList;
+    public BillDetailsJson JSON;
+    public CustomDropdown CD;
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+
+
+        for(int i= 0; i< JSON.patientsBillJSON.Count; i++)
+        {
+            CD.items[i].itemName = JSON.patientsBillJSON[i].guarantor;
+            Debug.Log(CD.items[i].itemName);
+        }
+        }
+    }
+    /*public BillList _billList;
     public TMP_Text Details, Bill;
     public CustomDropdown patientName;
-    public Sprite img;
+    //public Sprite img;
     private void Start()
     {
-        /*string json = JsonUtility.ToJson(billList, true);
-        File.WriteAllText(Application.dataPath + "/jsonBillData/data.json", json);*/
+        *//*string json = JsonUtility.ToJson(billList, true);
+        File.WriteAllText(Application.dataPath + "/jsonBillData/data.json", json);*//*
 
-        img = Resources.Load<Sprite>("3M icon");
+        //img = Resources.Load<Sprite>("3M icon");
         //string json = File.ReadAllText(Application.dataPath + "/jsonBillData/data.json");
         string json = Resources.Load<TextAsset>("jsonBillData/data").text;
         _billList = JsonUtility.FromJson<BillList>(json);
@@ -39,5 +55,5 @@ public class BillDetails : MonoBehaviour
     {
         Details.text = _billList.bilList[index].billData;
         Bill.text = _billList.bilList[index].billAmount;
-    }
+    }*/
 }

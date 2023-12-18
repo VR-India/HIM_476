@@ -1,4 +1,4 @@
-using Michsky.UI.ModernUIPack;
+using Michsky.MUIP;
 using UnityEngine.UI;
 using UnityEngine;
 
@@ -21,16 +21,16 @@ public enum ButtonPressAction
 
 public class ButtonClickDetectorReception : subject
 {
-    public ButtonManagerBasic fillForm, askId, twoMins, doctorFree;
+    public ButtonManager fillForm, askId, twoMins, doctorFree;
     public BNG.Button redBtn;
 
     private void Start()
     {
         redBtn.onButtonDown.AddListener(() => NotifyObserver(ButtonPressAction.dialoguePanel));
         //redBtn.onClick.AddListener(() => NotifyObserver(ButtonPressAction.dialoguePanel));
-        fillForm.clickEvent.AddListener(() => NotifyObserver(ButtonPressAction.giveClipboard));
-        askId.clickEvent.AddListener(() => NotifyObserver(ButtonPressAction.scanID));
-        twoMins.clickEvent.AddListener(() => NotifyObserver(ButtonPressAction.fillDetails));
-        doctorFree.clickEvent.AddListener(() => NotifyObserver(ButtonPressAction.nextScene));
+        fillForm.onClick.AddListener(() => NotifyObserver(ButtonPressAction.giveClipboard));
+        askId.onClick.AddListener(() => NotifyObserver(ButtonPressAction.scanID));
+        twoMins.onClick.AddListener(() => NotifyObserver(ButtonPressAction.fillDetails));
+        doctorFree.onClick.AddListener(() => NotifyObserver(ButtonPressAction.nextScene));
     }
 }

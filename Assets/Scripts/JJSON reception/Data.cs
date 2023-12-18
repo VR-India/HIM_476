@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using Michsky.UI.ModernUIPack;
+using Michsky.MUIP;
 using myData;
 using System.IO;
 

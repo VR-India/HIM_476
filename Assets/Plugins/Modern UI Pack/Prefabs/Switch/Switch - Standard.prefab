@@ -358,7 +358,7 @@ GameObject:
   m_Layer: 5
   m_Name: Switch - Standard
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2800000, guid: 1de3e885959f3b84f9f25beca3a9503d, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -429,6 +429,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UIManagerAsset: {fileID: 11400000, guid: 2a619a9609984be49b53b928dd94e61b, type: 2}
   webglMode: 0
+  overrideColors: 0
   border: {fileID: 114125767627053004}
   background: {fileID: 114082505243128768}
   handleOn: {fileID: 114574768539375470}

@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using TMPro;
 
-namespace Michsky.UI.ModernUIPack
+namespace Michsky.MUIP
 {
     public class ProgressBar : MonoBehaviour
     {
@@ -26,7 +26,7 @@ namespace Michsky.UI.ModernUIPack
         public bool addSuffix = true;
         public string prefix = "";
         public string suffix = "%";
-        public bool isFilled;
+        public bool isLooped = false;
         [Range(0, 5)] public int decimals = 0;
 
         // Events

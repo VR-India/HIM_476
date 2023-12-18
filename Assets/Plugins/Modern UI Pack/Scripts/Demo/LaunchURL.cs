@@ -1,12 +1,10 @@
 ﻿using UnityEngine;
 
-namespace Michsky.UI.ModernUIPack
+namespace Michsky.MUIP
 {
     public class LaunchURL : MonoBehaviour
     {
-        public string URL;
-
-        public void urlLinkOrWeb()
+        public void GoToURL(string URL)
         {
             Application.OpenURL(URL);
         }

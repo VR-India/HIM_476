@@ -1,4 +1,4 @@
-using Michsky.UI.ModernUIPack;
+using Michsky.MUIP;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

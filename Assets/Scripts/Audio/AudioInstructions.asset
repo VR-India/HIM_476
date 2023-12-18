@@ -31,5 +31,5 @@ MonoBehaviour:
   - name: Goto next scene
     time: 4
     clip: {fileID: 8300000, guid: 5d5cd02557c04a740aca575d5f6186ce, type: 3}
-  Instruction_validForOnce: 0
+  Instruction_validForOnce: 1
   LoadScene_valid: 0

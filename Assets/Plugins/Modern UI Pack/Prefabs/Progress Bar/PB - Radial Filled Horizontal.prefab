@@ -447,7 +447,7 @@ GameObject:
   m_Layer: 5
   m_Name: PB - Radial Filled Horizontal
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2800000, guid: be8d03bb95afe0641976d654781e9e44, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -499,8 +499,12 @@ MonoBehaviour:
   addSuffix: 1
   prefix: 
   suffix: '%'
-  isFilled: 1
+  isLooped: 0
   decimals: 0
+  onValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  eventSource: {fileID: 0}
 --- !u!114 &114335747114316296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -534,6 +538,7 @@ MonoBehaviour:
   hasBackground: 1
   useRegularBackground: 0
   webglMode: 0
+  overrideColors: 0
   bar: {fileID: 114099371128274186}
   background: {fileID: 114779132016213822}
 --- !u!95 &95727880058851288

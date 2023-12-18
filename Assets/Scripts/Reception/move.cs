@@ -17,7 +17,7 @@ public class move : MonoBehaviour
 
     private void OnEnable()
     {
-        if (this.gameObject.name == "Emily" || this.gameObject.name == "Davin")
+        //if (this.gameObject.name == "Emily" || this.gameObject.name == "Davin")
             speed = 2;
     }
 
@@ -29,6 +29,7 @@ public class move : MonoBehaviour
     {
         if (coll.GetType() == typeof(BoxCollider))
             this.gameObject.transform.eulerAngles += new Vector3(0, 180, 0);
+
         else if (coll.GetType() == typeof(CapsuleCollider))
         {
             GetComponent<Animator>().SetBool("stopWalk", true);

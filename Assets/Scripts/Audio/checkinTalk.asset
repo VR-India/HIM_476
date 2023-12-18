@@ -13,17 +13,53 @@ MonoBehaviour:
   m_Name: checkinTalk
   m_EditorClassIdentifier: 
   clips:
-  - name: Peter Ward
+  - name: Agnijeet Dawde
     time: 2
-    clip: {fileID: 8300000, guid: 27ff6c6f4d8b3f249bb8f81d51bc7943, type: 3}
-  - name: John Doe
+    clip: {fileID: 8300000, guid: 10e37f1e41dab294aa4409197e0b043c, type: 3}
+  - name: Anne Doe
     time: 2
-    clip: {fileID: 8300000, guid: d55321ca65d857c47a0974643f5628fd, type: 3}
+    clip: {fileID: 8300000, guid: 1facb76d9de29554b8b64569dad5ee8a, type: 3}
   - name: Davin Brown
     time: 2
     clip: {fileID: 8300000, guid: 4918b027ebd621941832422b75e7a10f, type: 3}
   - name: Emily Blum
     time: 2
     clip: {fileID: 8300000, guid: bbb51e8c6695e9241a793da02ca0606a, type: 3}
+  - name: Jason Murphy
+    time: 2
+    clip: {fileID: 8300000, guid: 89306ac6f73c13e4f84ed36b787dd28f, type: 3}
+  - name: Jessica James
+    time: 2
+    clip: {fileID: 8300000, guid: db789bc40ae5598468f624f2b48beb46, type: 3}
+  - name: John Doe
+    time: 2
+    clip: {fileID: 8300000, guid: d55321ca65d857c47a0974643f5628fd, type: 3}
+  - name: Johnny Blunt
+    time: 2
+    clip: {fileID: 8300000, guid: dae88471843631f448d1829b94abad7c, type: 3}
+  - name: June Smith
+    time: 2
+    clip: {fileID: 8300000, guid: 5e0cc85cfe933a54fa93567a63aa24bd, type: 3}
+  - name: Karthika Sampedu
+    time: 2
+    clip: {fileID: 8300000, guid: bbb51e8c6695e9241a793da02ca0606a, type: 3}
+  - name: Mark Doe
+    time: 2
+    clip: {fileID: 8300000, guid: dcaaac048aeaa324c9e5f367b3e45af7, type: 3}
+  - name: Peter Ward
+    time: 2
+    clip: {fileID: 8300000, guid: 27ff6c6f4d8b3f249bb8f81d51bc7943, type: 3}
+  - name: Savanna Smith
+    time: 2
+    clip: {fileID: 8300000, guid: 8e67ff140afcf884e94b7fe5b13470d6, type: 3}
+  - name: Srinivas Reddy
+    time: 2
+    clip: {fileID: 8300000, guid: bbb51e8c6695e9241a793da02ca0606a, type: 3}
+  - name: Stephanie Doe
+    time: 2
+    clip: {fileID: 8300000, guid: a217f586800c84f44b09fcf5f10f3022, type: 3}
+  - name: William Doe
+    time: 2
+    clip: {fileID: 8300000, guid: 7e1fee56197307f41883db05458bd643, type: 3}
   Instruction_validForOnce: 0
   LoadScene_valid: 0

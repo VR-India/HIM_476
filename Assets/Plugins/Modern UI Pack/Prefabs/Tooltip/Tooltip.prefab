@@ -131,7 +131,6 @@ GameObject:
   - component: {fileID: 222109535382793650}
   - component: {fileID: 114053275416634114}
   - component: {fileID: 114620868525144778}
-  - component: {fileID: 114877089826158382}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -208,26 +207,6 @@ MonoBehaviour:
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
---- !u!114 &114877089826158382
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1076080339909880}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreLayout: 0
-  m_MinWidth: -1
-  m_MinHeight: 25
-  m_PreferredWidth: -1
-  m_PreferredHeight: -1
-  m_FlexibleWidth: 100
-  m_FlexibleHeight: -1
-  m_LayoutPriority: 1
 --- !u!1 &1159215458362250
 GameObject:
   m_ObjectHideFlags: 0
@@ -337,7 +316,7 @@ GameObject:
   m_Layer: 0
   m_Name: Tooltip
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2800000, guid: 146ad7c4429fc764088d2a5139a2537d, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -376,12 +355,15 @@ MonoBehaviour:
   mainCanvas: {fileID: 0}
   tooltipObject: {fileID: 1065998037075352}
   tooltipContent: {fileID: 1076080339909880}
-  tooltipSmoothness: 0.1
+  tooltipSmoothness: 0.05
+  dampSpeed: 10
+  preferredWidth: 375
   allowUpdating: 0
   vBorderTop: -15
   vBorderBottom: 10
   hBorderLeft: 20
   hBorderRight: -15
+  contentLE: {fileID: 0}
 --- !u!114 &4970548041864213170
 MonoBehaviour:
   m_ObjectHideFlags: 0

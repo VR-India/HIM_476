@@ -1,11 +1,10 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
-namespace Michsky.UI.ModernUIPack
+namespace Michsky.MUIP
 {
     public class ContextMenuSubMenu : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
     {
@@ -13,6 +12,7 @@ namespace Michsky.UI.ModernUIPack
         public ContextMenuContent cmContent;
         public Animator subMenuAnimator;
         public Transform itemParent;
+        public GameObject trigger;
         [HideInInspector] public int subMenuIndex;
 
         GameObject selectedItem;
@@ -21,6 +21,8 @@ namespace Michsky.UI.ModernUIPack
         Sprite imageHelper;
         string textHelper;
         RectTransform listParent;
+
+       [HideInInspector] public bool enableFadeOut = true;
 
         void OnEnable()
         {
@@ -31,8 +33,20 @@ namespace Michsky.UI.ModernUIPack
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (cmManager.subMenuBehaviour != ContextMenuManager.SubMenuBehaviour.Hover)
-                subMenuAnimator.Play("Menu In");
+            if (cmManager.subMenuBehaviour == ContextMenuManager.SubMenuBehaviour.Click)
+            {
+                if (subMenuAnimator.GetCurrentAnimatorStateInfo(0).IsName("Menu In")) 
+                { 
+                    subMenuAnimator.Play("Menu Out");
+                    if (trigger != null) { trigger.SetActive(false); }
+                }
+
+                else 
+                { 
+                    subMenuAnimator.Play("Menu In"); 
+                    if (trigger != null) { trigger.SetActive(true); } 
+                }
+            }
         }
 
         public void OnPointerEnter(PointerEventData eventData)
@@ -44,9 +58,9 @@ namespace Michsky.UI.ModernUIPack
             {
                 bool nulLVariable = false;
 
-                if (cmContent.contexItems[subMenuIndex].subMenuItems[i].contextItemType == ContextMenuContent.ContextItemType.BUTTON && cmManager.contextButton != null)
+                if (cmContent.contexItems[subMenuIndex].subMenuItems[i].contextItemType == ContextMenuContent.ContextItemType.Button && cmManager.contextButton != null)
                     selectedItem = cmManager.contextButton;
-                else if (cmContent.contexItems[subMenuIndex].subMenuItems[i].contextItemType == ContextMenuContent.ContextItemType.SEPARATOR && cmManager.contextSeparator != null)
+                else if (cmContent.contexItems[subMenuIndex].subMenuItems[i].contextItemType == ContextMenuContent.ContextItemType.Separator && cmManager.contextSeparator != null)
                     selectedItem = cmManager.contextSeparator;
                 else
                 {
@@ -61,7 +75,7 @@ namespace Michsky.UI.ModernUIPack
                     GameObject go = Instantiate(selectedItem, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
                     go.transform.SetParent(itemParent, false);
 
-                    if (cmContent.contexItems[subMenuIndex].subMenuItems[i].contextItemType == ContextMenuContent.ContextItemType.BUTTON)
+                    if (cmContent.contexItems[subMenuIndex].subMenuItems[i].contextItemType == ContextMenuContent.ContextItemType.Button)
                     {
                         setItemText = go.GetComponentInChildren<TextMeshProUGUI>();
                         textHelper = cmContent.contexItems[subMenuIndex].subMenuItems[i].itemText;
@@ -85,29 +99,28 @@ namespace Michsky.UI.ModernUIPack
 
             if (cmManager.autoSubMenuPosition == true)
             {
-                if (cmManager.bottomLeft == true)
-                    listParent.pivot = new Vector2(0f, listParent.pivot.y);
-                if (cmManager.bottomRight == true)
-                    listParent.pivot = new Vector2(1f, listParent.pivot.y);
-                if (cmManager.topLeft == true)
-                    listParent.pivot = new Vector2(listParent.pivot.x, 0f);
-                if (cmManager.topRight == true)
-                    listParent.pivot = new Vector2(listParent.pivot.x, 1f);
+                if (cmManager.horizontalBound == ContextMenuManager.CursorBoundHorizontal.Left) { listParent.pivot = new Vector2(0f, listParent.pivot.y); }
+                else if (cmManager.horizontalBound == ContextMenuManager.CursorBoundHorizontal.Right) { listParent.pivot = new Vector2(1f, listParent.pivot.y); }
+               
+                if (cmManager.verticalBound == ContextMenuManager.CursorBoundVertical.Top) { listParent.pivot = new Vector2(listParent.pivot.x, 0f); }
+                else if (cmManager.verticalBound == ContextMenuManager.CursorBoundVertical.Bottom) { listParent.pivot = new Vector2(listParent.pivot.x, 1f); }
             }
 
-            if (cmManager.subMenuBehaviour == ContextMenuManager.SubMenuBehaviour.Click)
+            if (cmManager.subMenuBehaviour == ContextMenuManager.SubMenuBehaviour.Hover)
                 subMenuAnimator.Play("Menu In");
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            if (!subMenuAnimator.GetCurrentAnimatorStateInfo(0).IsName("Start"))
+#if !UNITY_2022_1_OR_NEWER
+            if (cmManager.subMenuBehaviour == ContextMenuManager.SubMenuBehaviour.Hover && !subMenuAnimator.GetCurrentAnimatorStateInfo(0).IsName("Start"))
                 subMenuAnimator.Play("Menu Out");
+#endif
         }
 
         IEnumerator ExecuteAfterTime(float time)
         {
-            yield return new WaitForSeconds(time);
+            yield return new WaitForSecondsRealtime(time);
             itemParent.gameObject.SetActive(false);
             itemParent.gameObject.SetActive(true);
             StopCoroutine(ExecuteAfterTime(0.01f));
@@ -118,6 +131,7 @@ namespace Michsky.UI.ModernUIPack
         {
             cmManager.contextAnimator.Play("Menu Out");
             cmManager.isOn = false;
+            trigger.SetActive(false);
         }
     }
 }

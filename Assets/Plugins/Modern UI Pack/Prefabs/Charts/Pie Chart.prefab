@@ -103,7 +103,7 @@ GameObject:
   m_Layer: 0
   m_Name: Pie Chart
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2800000, guid: 3ae7671fb73a5df4ebec7a6b32ae8e8c, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1

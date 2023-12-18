@@ -1,16 +1,16 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Michsky.UI.ModernUIPack
+namespace Michsky.MUIP
 {
     [ExecuteInEditMode]
     public class UIManagerProgressBarLoop : MonoBehaviour
     {
         [Header("Settings")]
-        public UIManager UIManagerAsset;
+        [SerializeField] private UIManager UIManagerAsset;
         public bool hasBackground;
         public bool useRegularBackground;
-        public bool webglMode = false;
+        public bool overrideColors = false;
 
         [Header("Resources")]
         public Image bar;
@@ -18,54 +18,35 @@ namespace Michsky.UI.ModernUIPack
 
         void Awake()
         {
-            if (Application.isPlaying && webglMode == true)
-                return;
+            if (UIManagerAsset == null) { UIManagerAsset = Resources.Load<UIManager>("MUIP Manager"); }
 
-            try
+            this.enabled = true;
+
+            if (UIManagerAsset.enableDynamicUpdate == false)
             {
-                if (UIManagerAsset == null)
-                    UIManagerAsset = Resources.Load<UIManager>("MUIP Manager");
-
-                this.enabled = true;
-
-                if (UIManagerAsset.enableDynamicUpdate == false)
-                {
-                    UpdateProgressBar();
-                    this.enabled = false;
-                }
+                UpdateProgressBar();
+                this.enabled = false;
             }
-
-            catch { Debug.Log("<b>[Modern UI Pack]</b> No UI Manager found, assign it manually.", this); }
         }
 
-        void LateUpdate()
+        void Update()
         {
-            if (UIManagerAsset == null)
-                return;
-
-            if (UIManagerAsset.enableDynamicUpdate == true)
-                UpdateProgressBar();
+            if (UIManagerAsset == null) { return; }
+            if (UIManagerAsset.enableDynamicUpdate == true) { UpdateProgressBar(); }
         }
 
         void UpdateProgressBar()
         {
-            if (Application.isPlaying && webglMode == true)
-                return;
-
-            try
+            if (overrideColors == false)
             {
                 bar.color = UIManagerAsset.progressBarColor;
 
                 if (hasBackground == true)
                 {
-                    if (useRegularBackground == true)
-                        background.color = UIManagerAsset.progressBarBackgroundColor;
-                    else
-                        background.color = UIManagerAsset.progressBarLoopBackgroundColor;
+                    if (useRegularBackground == true) { background.color = UIManagerAsset.progressBarBackgroundColor; }
+                    else { background.color = UIManagerAsset.progressBarLoopBackgroundColor; }
                 }
             }
-
-            catch { }
         }
     }
 }

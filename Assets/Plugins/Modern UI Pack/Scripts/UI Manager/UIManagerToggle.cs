@@ -2,72 +2,49 @@
 using UnityEngine.UI;
 using TMPro;
 
-namespace Michsky.UI.ModernUIPack
+namespace Michsky.MUIP
 {
     [ExecuteInEditMode]
     public class UIManagerToggle : MonoBehaviour
     {
         [Header("Settings")]
-        public UIManager UIManagerAsset;
-        public bool webglMode = false;
+        [SerializeField] private UIManager UIManagerAsset;
 
         [Header("Resources")]
-        public Image border;
-        public Image background;
-        public Image check;
-        public TextMeshProUGUI onLabel;
-        public TextMeshProUGUI offLabel;
+        [SerializeField] private Image border;
+        [SerializeField] private Image background;
+        [SerializeField] private Image check;
+        [SerializeField] private TextMeshProUGUI onLabel;
+        [SerializeField] private TextMeshProUGUI offLabel;
 
         void Awake()
         {
-            if (Application.isPlaying && webglMode == true)
-                return;
+            if (UIManagerAsset == null) { UIManagerAsset = Resources.Load<UIManager>("MUIP Manager"); }
 
-            try
+            this.enabled = true;
+
+            if (UIManagerAsset.enableDynamicUpdate == false)
             {
-                if (UIManagerAsset == null)
-                    UIManagerAsset = Resources.Load<UIManager>("MUIP Manager");
-
-                this.enabled = true;
-
-                if (UIManagerAsset.enableDynamicUpdate == false)
-                {
-                    UpdateToggle();
-                    this.enabled = false;
-                }
+                UpdateToggle();
+                this.enabled = false;
             }
-
-            catch { Debug.Log("<b>[Modern UI Pack]</b> No UI Manager found, assign it manually.", this); }
         }
 
-        void LateUpdate()
+        void Update()
         {
-            if (UIManagerAsset == null)
-                return;
-
-            if (UIManagerAsset.enableDynamicUpdate == true)
-                UpdateToggle();
+            if (UIManagerAsset == null) { return; }
+            if (UIManagerAsset.enableDynamicUpdate == true) { UpdateToggle(); }
         }
 
         void UpdateToggle()
         {
-            if (Application.isPlaying && webglMode == true)
-                return;
-
-            try
-            {
-                border.color = UIManagerAsset.toggleBorderColor;
-                background.color = UIManagerAsset.toggleBackgroundColor;
-                check.color = UIManagerAsset.toggleCheckColor;
-                onLabel.color = new Color(UIManagerAsset.toggleTextColor.r, UIManagerAsset.toggleTextColor.g, UIManagerAsset.toggleTextColor.b, onLabel.color.a);
-                onLabel.font = UIManagerAsset.toggleFont;
-                onLabel.fontSize = UIManagerAsset.toggleFontSize;
-                offLabel.color = new Color(UIManagerAsset.toggleTextColor.r, UIManagerAsset.toggleTextColor.g, UIManagerAsset.toggleTextColor.b, offLabel.color.a);
-                offLabel.font = UIManagerAsset.toggleFont;
-                offLabel.fontSize = UIManagerAsset.toggleFontSize;
-            }
-
-            catch { }
+            border.color = UIManagerAsset.toggleBorderColor;
+            background.color = UIManagerAsset.toggleBackgroundColor;
+            check.color = UIManagerAsset.toggleCheckColor;
+            onLabel.color = new Color(UIManagerAsset.toggleTextColor.r, UIManagerAsset.toggleTextColor.g, UIManagerAsset.toggleTextColor.b, onLabel.color.a);
+            onLabel.font = UIManagerAsset.toggleFont;
+            offLabel.color = new Color(UIManagerAsset.toggleTextColor.r, UIManagerAsset.toggleTextColor.g, UIManagerAsset.toggleTextColor.b, offLabel.color.a);
+            offLabel.font = UIManagerAsset.toggleFont;
         }
     }
 }

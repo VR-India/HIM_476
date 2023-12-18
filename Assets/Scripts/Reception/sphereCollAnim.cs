@@ -18,22 +18,18 @@ public class sphereCollAnim : MonoBehaviour
 
             switch(this.gameObject.name)
             {
-                case "Peter_Sphere":
-                    clipBoard.transform.localPosition = new Vector3(-0.248999998f, -0.0159000009f, -0.0719000027f);
-                    clipBoard.transform.localEulerAngles = new Vector3(5.0625186f, 155.665466f, 340.612061f);
+                case "model1_Sphere":
+                    
+                    clipBoard.transform.localPosition = new Vector3(0.247500002f, 0.0458000004f, 0.0261000004f);
+                    clipBoard.transform.localEulerAngles = new Vector3(272.035095f, 282.656311f, 261.20163f);
                     break;
 
-                case "John_Sphere":
-                    clipBoard.transform.localPosition = new Vector3(-0.248999998f, -0.0159000009f, -0.0719000027f);
-                    clipBoard.transform.localEulerAngles = new Vector3(5.0625186f, 155.665466f, 340.612061f);
-                    break;
-
-                case "Davin_Sphere":
+                case "model2_Sphere":
                     clipBoard.transform.localPosition = new Vector3(-0.075000003f, 0.228300005f, 0.0121999998f);
                     clipBoard.transform.localEulerAngles = new Vector3(351.868958f, 5.08239555f, 100.135933f);
                     break;
 
-                case "Emily_Sphere":
+                case "model3_Sphere":
                     clipBoard.transform.localPosition = new Vector3(-0.075000003f, 0.228300005f, 0.0121999998f);
                     clipBoard.transform.localEulerAngles = new Vector3(351.868958f, 5.08239555f, 100.135933f);
                     break;
@@ -64,7 +60,7 @@ public class sphereCollAnim : MonoBehaviour
         emptyPage.SetActive(false);
         fillPage.SetActive(true);
         clipBoard.GetComponent<Grabbable>().enabled = true;
-        animateManager.instance.giveBack();
+        //animateManager.instance.givenClipboard();
         //GetComponent<SphereCollider>().enabled = false;
         filled = true;
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-namespace Michsky.UI.ModernUIPack
+namespace Michsky.MUIP
 {
 	public class PieChart : MaskableGraphic
 	{
@@ -159,7 +159,10 @@ namespace Michsky.UI.ModernUIPack
 		public void ChangeValue(int itemIndex, float itemValue)
         {
 			chartData[itemIndex].value = itemValue;
-        }
+
+			this.enabled = false;
+			this.enabled = true;
+		}
 
 		public void AddNewItem()
 		{

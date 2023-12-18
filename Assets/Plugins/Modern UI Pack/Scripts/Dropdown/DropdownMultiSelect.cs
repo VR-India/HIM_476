@@ -1,14 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using TMPro;
 
-namespace Michsky.UI.ModernUIPack
+namespace Michsky.MUIP
 {
-    public class DropdownMultiSelect : MonoBehaviour, IPointerExitHandler
+    public class DropdownMultiSelect : MonoBehaviour, IPointerExitHandler, IPointerClickHandler
     {
         // Resources
         public GameObject triggerObject;
@@ -20,185 +19,193 @@ namespace Michsky.UI.ModernUIPack
         public Transform listParent;
         private Animator dropdownAnimator;
         public TextMeshProUGUI setItemText;
+        public CanvasGroup contentCG;
 
         // Settings
+        public bool isInteractable = true;
+        public bool initAtStart = true;
         public bool enableIcon = true;
         public bool enableTrigger = true;
         public bool enableScrollbar = true;
-        public bool setHighPriorty = true;
+        public bool setHighPriority = true;
         public bool outOnPointerExit = false;
         public bool isListItem = false;
-        public AnimationType animationType;
+        public bool invokeAtStart = false;
         [Range(1, 50)] public int itemPaddingTop = 8;
         [Range(1, 50)] public int itemPaddingBottom = 8;
         [Range(1, 50)] public int itemPaddingLeft = 8;
         [Range(1, 50)] public int itemPaddingRight = 25;
         [Range(1, 50)] public int itemSpacing = 8;
 
-        // Saving
-        public bool saveSelected = false;
-        public bool invokeAtStart = false;
-        public string toggleTag = "Multi Dropdown";
+        // Animation
+        public AnimationType animationType;
+        [Range(1, 25)] public float transitionSmoothness = 10;
+        [Range(1, 25)] public float sizeSmoothness = 15;
+        public float panelSize = 200;
+        public RectTransform listRect;
+        public CanvasGroup listCG;
+        bool isInTransition = false;
+        float closeOn;
 
         // Items
         [SerializeField]
-        public List<Item> dropdownItems = new List<Item>();
+        public List<Item> items = new List<Item>();
 
         // Other variables
+        bool isInitialized = false;
+        int currentIndex;
+        Toggle currentToggle;
         string textHelper;
-        string newItemTitle;
         bool isOn;
-        public int iHelper = 0;
         public int siblingIndex = 0;
         EventTrigger triggerEvent;
 
         [System.Serializable]
         public class ToggleEvent : UnityEvent<bool> { }
 
-        public enum AnimationType
-        {
-            FADING,
-            SLIDING,
-            STYLISH
-        }
+        public enum AnimationType { Modular, Stylish }
 
         [System.Serializable]
         public class Item
         {
             public string itemName = "Dropdown Item";
-            public bool isOn = false;
+            public bool isOn;
+            [HideInInspector] public int itemIndex;
             [SerializeField] public ToggleEvent onValueChanged = new ToggleEvent();
         }
 
-        void Start()
+        void OnEnable()
         {
-            try
+            if (isInitialized == false) { Initialize(); }
+            if (animationType == AnimationType.Modular)
             {
-                if (itemList == null)
-                    itemList = itemParent.GetComponent<VerticalLayoutGroup>();
+                listCG.alpha = 0;
+                listCG.interactable = false;
+                listCG.blocksRaycasts = false;
+                listRect.sizeDelta = new Vector2(listRect.sizeDelta.x, closeOn);
+            }
+        }
 
-                if (dropdownItems.Count != 0)
-                    SetupDropdown();
+        void Initialize()
+        {
+            if (listCG == null) { listCG = gameObject.GetComponentInChildren<CanvasGroup>(); }
+            if (listRect == null) { listRect = listCG.GetComponent<RectTransform>(); }
+            if (initAtStart == true) { SetupDropdown(); }
+            if (animationType == AnimationType.Modular && dropdownAnimator != null) { Destroy(dropdownAnimator); }
 
-                currentListParent = transform.parent;
-
-                if (enableTrigger == true && triggerObject != null)
-                {
-                    // triggerButton = gameObject.GetComponent<Button>();
-                    triggerEvent = triggerObject.AddComponent<EventTrigger>();
-                    EventTrigger.Entry entry = new EventTrigger.Entry();
-                    entry.eventID = EventTriggerType.PointerClick;
-                    entry.callback.AddListener((eventData) => { Animate(); });
-                    triggerEvent.GetComponent<EventTrigger>().triggers.Add(entry);
-                }
+            if (enableTrigger == true && triggerObject != null)
+            {
+                // triggerButton = gameObject.GetComponent<Button>();
+                triggerEvent = triggerObject.AddComponent<EventTrigger>();
+                EventTrigger.Entry entry = new EventTrigger.Entry();
+                entry.eventID = EventTriggerType.PointerClick;
+                entry.callback.AddListener((eventData) => { Animate(); });
+                triggerEvent.GetComponent<EventTrigger>().triggers.Add(entry);
             }
 
-            catch { Debug.LogError("<b>[Dropdown]</b> Cannot initalize the object due to missing resources.", this); return; }
+            if (setHighPriority == true)
+            {
+                if (contentCG == null) { contentCG = transform.Find("Content/Item List").GetComponent<CanvasGroup>(); }
+                contentCG.alpha = 1;
 
-            if (dropdownAnimator == null)
-                dropdownAnimator = gameObject.GetComponent<Animator>();
+                Canvas tempCanvas = contentCG.gameObject.AddComponent<Canvas>();
+                tempCanvas.overrideSorting = true;
+                tempCanvas.sortingOrder = 30000;
+                contentCG.gameObject.AddComponent<GraphicRaycaster>();
+            }
 
-            if (enableScrollbar == false && scrollbar != null)
-                Destroy(scrollbar);
+            currentListParent = transform.parent;
+            closeOn = gameObject.GetComponent<RectTransform>().sizeDelta.y;
+            isInitialized = true;
+        }
 
-            if (setHighPriorty == true)
-                transform.SetAsLastSibling();
+        void Update()
+        {
+            if (isInTransition == false)
+                return;
 
-            UpdateItemLayout();
+            ProcessModularAnimation();
+        }
+
+        void ProcessModularAnimation()
+        {
+            if (isOn == true)
+            {
+                listCG.alpha += Time.unscaledDeltaTime * transitionSmoothness;
+                listRect.sizeDelta = Vector2.Lerp(listRect.sizeDelta, new Vector2(listRect.sizeDelta.x, panelSize), Time.unscaledDeltaTime * sizeSmoothness);
+
+                if (listRect.sizeDelta.y >= panelSize - 0.1f && listCG.alpha >= 1) { isInTransition = false; }
+            }
+
+            else
+            {
+                listCG.alpha -= Time.unscaledDeltaTime * transitionSmoothness;
+                listRect.sizeDelta = Vector2.Lerp(listRect.sizeDelta, new Vector2(listRect.sizeDelta.x, closeOn), Time.unscaledDeltaTime * sizeSmoothness);
+
+                if (listRect.sizeDelta.y <= closeOn + 0.1f && listCG.alpha <= 0) { isInTransition = false; }
+            }
         }
 
         public void SetupDropdown()
         {
-            foreach (Transform child in itemParent)
-                Destroy(child.gameObject);
+            if (dropdownAnimator == null) { dropdownAnimator = gameObject.GetComponent<Animator>(); }
+            if (enableScrollbar == false && scrollbar != null) { Destroy(scrollbar); }
+            if (itemList == null) { itemList = itemParent.GetComponent<VerticalLayoutGroup>(); }
 
-            for (int i = 0; i < dropdownItems.Count; ++i)
+            UpdateItemLayout();
+
+            foreach (Transform child in itemParent) { Destroy(child.gameObject); }
+            for (int i = 0; i < items.Count; ++i)
             {
                 GameObject go = Instantiate(itemObject, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
                 go.transform.SetParent(itemParent, false);
 
                 setItemText = go.GetComponentInChildren<TextMeshProUGUI>();
-                textHelper = dropdownItems[i].itemName;
+                textHelper = items[i].itemName;
                 setItemText.text = textHelper;
 
-                Toggle itemToggle;
-                itemToggle = go.GetComponent<Toggle>();
+                items[i].itemIndex = i;
+                DropdownMultiSelect.Item mainItem = items[i];
 
-                iHelper = i;
+                Toggle itemToggle = go.GetComponent<Toggle>();
+                itemToggle.onValueChanged.AddListener(delegate { UpdateToggleData(mainItem.itemIndex); });
+                itemToggle.onValueChanged.AddListener(UpdateToggle);
+                itemToggle.onValueChanged.AddListener(items[i].onValueChanged.Invoke);
 
-                itemToggle.onValueChanged.AddListener(delegate { UpdateToggle(go.transform.GetSiblingIndex()); });
-              //  ChangeDropdownInfo(index = go.transform.GetSiblingIndex());
-
-                if (dropdownItems[i].onValueChanged != null)
-                    itemToggle.onValueChanged.AddListener(dropdownItems[i].onValueChanged.Invoke);
-
-                if (saveSelected == true)
-                {
-                    if (invokeAtStart == true)
-                    {
-                        if (PlayerPrefs.GetInt("DropdownMS" + toggleTag) == 1)
-                            dropdownItems[i].onValueChanged.Invoke(true);
-                        else
-                            dropdownItems[i].onValueChanged.Invoke(false);
-                    }
-
-                    else
-                        itemToggle.onValueChanged.AddListener(SaveToggleData);
-                }
-
-                else
-                {
-                    if (invokeAtStart == true)
-                    {
-                        if (dropdownItems[i].isOn == true)
-                            dropdownItems[i].onValueChanged.Invoke(true);
-                        else
-                            dropdownItems[i].onValueChanged.Invoke(false);
-                    }
-
-                    else
-                    {
-                        if (dropdownItems[i].isOn == true)
-                            itemToggle.isOn = true;
-                        else
-                            itemToggle.isOn = false;
-                    }
-                }
+                if (items[i].isOn == true) { itemToggle.isOn = true; }
+                else { itemToggle.isOn = false; }
 
                 if (invokeAtStart == true)
                 {
-                    if (dropdownItems[i].isOn == true)
-                        dropdownItems[i].onValueChanged.Invoke(true);
-                    else
-                        dropdownItems[i].onValueChanged.Invoke(false);
+                    if (items[i].isOn == true) { items[i].onValueChanged.Invoke(true); }
+                    else { items[i].onValueChanged.Invoke(false); }
                 }
             }
 
             currentListParent = transform.parent;
         }
 
-        void UpdateToggle(int itemIndex)
+        void UpdateToggle(bool value)
         {
-            if (dropdownItems[itemIndex].isOn == true)
-                dropdownItems[itemIndex].isOn = false;
-            else
-                dropdownItems[itemIndex].isOn = true;
+            if (value == true) { currentToggle.isOn = true; items[currentIndex].isOn = true; }
+            else { currentToggle.isOn = false; items[currentIndex].isOn = false; }
         }
 
-        void SaveToggleData(bool isOn)
+        void UpdateToggleData(int itemIndex)
         {
-            if (isOn == true)
-                PlayerPrefs.SetInt("DropdownMS" + toggleTag + iHelper, 1);
-            else
-                PlayerPrefs.SetInt("DropdownMS" + toggleTag + iHelper, 0);
+            currentIndex = itemIndex;
+            currentToggle = itemParent.GetChild(currentIndex).GetComponent<Toggle>();
         }
 
         public void Animate()
         {
-            if (isOn == false && animationType == AnimationType.FADING)
+            if (isOn == false && animationType == AnimationType.Modular)
             {
-                dropdownAnimator.Play("Fading In");
                 isOn = true;
+                isInTransition = true;
+                this.enabled = true;
+                listCG.blocksRaycasts = true;
+                listCG.interactable = true;
 
                 if (isListItem == true)
                 {
@@ -207,10 +214,13 @@ namespace Michsky.UI.ModernUIPack
                 }
             }
 
-            else if (isOn == true && animationType == AnimationType.FADING)
+            else if (isOn == true && animationType == AnimationType.Modular)
             {
-                dropdownAnimator.Play("Fading Out");
                 isOn = false;
+                isInTransition = true;
+                this.enabled = true;
+                listCG.blocksRaycasts = false;
+                listCG.interactable = false;
 
                 if (isListItem == true)
                 {
@@ -219,31 +229,7 @@ namespace Michsky.UI.ModernUIPack
                 }
             }
 
-            else if (isOn == false && animationType == AnimationType.SLIDING)
-            {
-                dropdownAnimator.Play("Sliding In");
-                isOn = true;
-
-                if (isListItem == true)
-                {
-                    siblingIndex = transform.GetSiblingIndex();
-                    gameObject.transform.SetParent(listParent, true);
-                }
-            }
-
-            else if (isOn == true && animationType == AnimationType.SLIDING)
-            {
-                dropdownAnimator.Play("Sliding Out");
-                isOn = false;
-
-                if (isListItem == true)
-                {
-                    gameObject.transform.SetParent(currentListParent, true);
-                    gameObject.transform.SetSiblingIndex(siblingIndex);
-                }
-            }
-
-            else if (isOn == false && animationType == AnimationType.STYLISH)
+            else if (isOn == false && animationType == AnimationType.Stylish)
             {
                 dropdownAnimator.Play("Stylish In");
                 isOn = true;
@@ -255,10 +241,11 @@ namespace Michsky.UI.ModernUIPack
                 }
             }
 
-            else if (isOn == true && animationType == AnimationType.STYLISH)
+            else if (isOn == true && animationType == AnimationType.Stylish)
             {
                 dropdownAnimator.Play("Stylish Out");
                 isOn = false;
+
                 if (isListItem == true)
                 {
                     gameObject.transform.SetParent(currentListParent, true);
@@ -266,37 +253,42 @@ namespace Michsky.UI.ModernUIPack
                 }
             }
 
-            if (setHighPriorty == true)
-                transform.SetAsLastSibling();
+            if (enableTrigger == true && isOn == false) { triggerObject.SetActive(false); }
+            else if (enableTrigger == true && isOn == true) { triggerObject.SetActive(true); }
 
-            if (enableTrigger == true && isOn == false)
-                triggerObject.SetActive(false);
-            else if (enableTrigger == true && isOn == true)
-                triggerObject.SetActive(true);
-
-            if (enableTrigger == true && outOnPointerExit == true)
-                triggerObject.SetActive(false);
+            if (enableTrigger == true && outOnPointerExit == true) { triggerObject.SetActive(false); }
         }
 
-        public void CreateNewItem()
+        public void CreateNewItem(string title, bool value, bool notify)
         {
             Item item = new Item();
-            item.itemName = newItemTitle;
-            dropdownItems.Add(item);
-            SetupDropdown();
+            item.itemName = title;
+            item.isOn = value;
+            items.Add(item);
+            if (notify == true) { SetupDropdown(); }
+        }
+
+        public void CreateNewItem(string title, bool value)
+        {
+            Item item = new Item();
+            item.itemName = title;
+            item.isOn = value;
+            items.Add(item);
+            SetupDropdown();     
+        }
+
+        public void CreateNewItem(string title)
+        {
+            Item item = new Item();
+            item.itemName = title;
+            items.Add(item);
         }
 
         public void RemoveItem(string itemTitle)
         {
-            var item = dropdownItems.Find(x => x.itemName == itemTitle);
-            dropdownItems.Remove(item);
+            var item = items.Find(x => x.itemName == itemTitle);
+            items.Remove(item);
             SetupDropdown();
-        }
-
-        public void AddNewItem()
-        {
-            Item item = new Item();
-            dropdownItems.Add(item);
         }
 
         public void UpdateItemLayout()
@@ -311,6 +303,12 @@ namespace Michsky.UI.ModernUIPack
             }
         }
 
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if (isInteractable == false) { return; }
+            Animate();
+        }
+
         public void OnPointerExit(PointerEventData eventData)
         {
             if (outOnPointerExit == true && isOn == true)
@@ -318,8 +316,7 @@ namespace Michsky.UI.ModernUIPack
                 Animate();
                 isOn = false;
 
-                if (isListItem == true)
-                    gameObject.transform.SetParent(currentListParent, true);
+                if (isListItem == true) { gameObject.transform.SetParent(currentListParent, true); }
             }
         }
     }

@@ -1,3 +1,4 @@
+using Michsky.MUIP;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -10,6 +11,7 @@ public class fadeAndMatChange : MonoBehaviour
     [System.Serializable]
     public class _charMats
     {
+        public string name;
         public Texture DLMat, HCMat;
         public Sprite clipboard;
         public string appDetails;
@@ -34,7 +36,7 @@ public class fadeAndMatChange : MonoBehaviour
     public BNG.Button redBTN;
 
     public GameObject patient;
-    public Button btn;
+    public GameObject btn;
     public GameObject ghost;
     public AudioSource source;
 
@@ -71,22 +73,26 @@ public class fadeAndMatChange : MonoBehaviour
         else
             PlayerPrefs.SetInt("patient", 0);
 
-        Debug.Log(patientIndex);
+        Debug.Log(" current patient number from list: " + patientIndex);
+        
         changeMat(patientIndex);
 
         if (boolRef.LoadScene_valid)
         {
             patient.SetActive(true);
-            btn.interactable = true;
+            btn.GetComponent<Button>().interactable = true;
+            btn.GetComponent<ButtonManager>().isInteractable = true;
             ghost.SetActive(false);
             redBTN.enabled = false;
         }
     }
 
+    public sphereCollAnim collAnim;
 
     #region transition to check-In
     public void transition()
     {
+        collAnim = FindObjectOfType<sphereCollAnim>();
         StartCoroutine(FadeImage());
         Debug.Log("transition");
     }
@@ -118,24 +124,19 @@ public class fadeAndMatChange : MonoBehaviour
 
     private void SetCheckinPosition()
     {
-        switch (patient.name)
+        switch (collAnim.name)
         {
-            case "Peter":
+
+            case "model1_Sphere":
                 patient.transform.position = new Vector3(-32.6080017f, 0, -12.7550001f);
                 patient.transform.eulerAngles = new Vector3(0, 308.770355f, 0);
                 break;
-
-            case "John":
-                patient.transform.position = new Vector3(-32.6080017f, 0, -12.7550001f);
-                patient.transform.eulerAngles = new Vector3(0, 308.770355f, 0);
-                break;
-
-            case "Davin":
+            case "model2_Sphere":
                 patient.transform.localPosition = new Vector3(0.239999995f, -2.15700006f, -0.379999995f);
                 patient.transform.eulerAngles = new Vector3(0, 106.290787f, 0);
                 break;
 
-            case "Emily":
+            case "model3_Sphere":
                 patient.transform.localPosition = new Vector3(0.239999995f, -2.15700006f, -0.379999995f);
                 patient.transform.eulerAngles = new Vector3(0, 105.450195f, 0);
                 break;
@@ -160,7 +161,8 @@ public class fadeAndMatChange : MonoBehaviour
     {
         source.Play();
         patient.SetActive(true);
-        btn.interactable = true;
+        btn.GetComponent<Button>().interactable = true;
+        btn.GetComponent<ButtonManager>().isInteractable = true;
         ghost.SetActive(false);
         redBTN.enabled = false;
     }
@@ -179,27 +181,5 @@ public class fadeAndMatChange : MonoBehaviour
         appText.text = charMats[opt].appDetails;
         checkInTextField.text = charMats[opt].patientName;
         checkInScan.sprite = charMats[opt].DLsprite;
-
-        /*switch (opt)
-        {
-            case 0:
-                shirt.color = Color.red;
-                break;
-            case 1:
-                shirt.color = Color.blue;
-                break;
-            case 2:
-                shirt.color = Color.green;
-                break;
-            case 3:
-                shirt.color = Color.yellow;
-                break;
-            case 4:
-                shirt.color = Color.cyan;
-                break;
-            default:
-                print("index outside of cases.");
-                break;
-        }*/
     }
 }

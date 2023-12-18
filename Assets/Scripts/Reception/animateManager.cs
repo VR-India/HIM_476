@@ -1,3 +1,4 @@
+using Michsky.MUIP;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,10 +11,11 @@ public class animateManager : MonoBehaviour
     public AudioSource audioSource;
     public GameObject patient;
     public GameObject cards, handSphere, scannerGhost;
-    public Button form, ID, wait, done;
+    public GameObject form, ID, wait;
 
     public Sounds boolRef;
     int patientIndex;
+
 
     private void Awake()
     {
@@ -23,32 +25,27 @@ public class animateManager : MonoBehaviour
         }
         patientIndex = PlayerPrefs.GetInt("patient");
     }
+
+    public sphereCollAnim collAnim;
     public void setPosition()
     {
-        switch (patient.name)
+        collAnim = FindObjectOfType<sphereCollAnim>();
+        switch (collAnim.name)
         {
-            case "Peter":
+            case "model1_Sphere":
                 patient.transform.position = new Vector3(-34.011f, 0, -13.212f);
                 patient.transform.eulerAngles = new Vector3(0, 456.444f, 0);
 
-                cards.transform.localPosition = new Vector3(0, 0, 0);
-                cards.transform.localEulerAngles = new Vector3(0, 0, 0);
+                /*cards.transform.localPosition = new Vector3(0, 0, 0);
+                cards.transform.localEulerAngles = new Vector3(0, 0, 0);*/
                 break;
 
-            case "John":
-                patient.transform.position = new Vector3(-34.011f, 0, -13.212f);
-                patient.transform.eulerAngles = new Vector3(0, 456.444f, 0);
-
-                cards.transform.localPosition = new Vector3(0, 0, 0);
-                cards.transform.localEulerAngles = new Vector3(0, 0, 0);
-                break;
-
-            case "Davin":
+            case "model2_Sphere":
                 cards.transform.localPosition = new Vector3(0.0130000003f, 0.00700000022f, 0.00700000022f);
                 cards.transform.localEulerAngles = new Vector3(349.084167f, 149.039474f, 263.518372f);
                 break;
 
-            case "Emily":
+            case "model3_Sphere":
                 cards.transform.localPosition = new Vector3(0.0130000003f, 0.00700000022f, 0.00700000022f);
                 cards.transform.localEulerAngles = new Vector3(349.084167f, 149.039474f, 263.518372f);
                 break;
@@ -64,7 +61,8 @@ public class animateManager : MonoBehaviour
     {
         patient.GetComponent<Animator>().SetBool("TellProblem", true);
         audioSource.PlayOneShot(fadeAndMatChange.illnessClip);
-        form.interactable = true;
+        form.GetComponent<ButtonManager>().isInteractable = true;
+        form.GetComponent<Button>().interactable = true;
     }
 
     public void takeClipboard()
@@ -95,7 +93,8 @@ public class animateManager : MonoBehaviour
     {
         setPosition();
         patient.GetComponent<Animator>().SetBool("GivenClipboard", true);
-        ID.interactable = true;
+        ID.GetComponent<ButtonManager>().isInteractable = true;
+        ID.GetComponent<Button>().interactable = true;
     }
 
     public void giveCards()
@@ -114,7 +113,8 @@ public class animateManager : MonoBehaviour
     {
         setPosition();
         patient.GetComponent<Animator>().SetBool("GivenCards", true);
-        wait.interactable = true;
+        wait.GetComponent<ButtonManager>().isInteractable = true;
+        wait.GetComponent<Button>().interactable = true;
 
         scannerGhost.SetActive(true);
         scannerGhost.GetComponent<Animator>().Play("ID scanner");

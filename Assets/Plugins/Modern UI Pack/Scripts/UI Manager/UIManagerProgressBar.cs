@@ -2,68 +2,56 @@
 using UnityEngine.UI;
 using TMPro;
 
-namespace Michsky.UI.ModernUIPack
+namespace Michsky.MUIP
 {
     [ExecuteInEditMode]
     public class UIManagerProgressBar : MonoBehaviour
     {
         [Header("Settings")]
-        public UIManager UIManagerAsset;
-        public bool webglMode = false;
+        [SerializeField] private UIManager UIManagerAsset;
+        [HideInInspector] public bool overrideColors = false;
+        [HideInInspector] public bool overrideFonts = false;
 
         [Header("Resources")]
-        public Image bar;
-        public Image background;
-        public TextMeshProUGUI label;
+        [SerializeField] private Image bar;
+        [SerializeField] private Image background;
+        [SerializeField] private TextMeshProUGUI label;
 
         bool dynamicUpdateEnabled;
 
         void Awake()
         {
-            if (Application.isPlaying && webglMode == true)
-                return;
+            if (UIManagerAsset == null) { UIManagerAsset = Resources.Load<UIManager>("MUIP Manager"); }
 
-            try
+            this.enabled = true;
+
+            if (UIManagerAsset.enableDynamicUpdate == false)
             {
-                if (UIManagerAsset == null)
-                    UIManagerAsset = Resources.Load<UIManager>("MUIP Manager");
-
-                this.enabled = true;
-
-                if (UIManagerAsset.enableDynamicUpdate == false)
-                {
-                    UpdateProgressBar();
-                    this.enabled = false;
-                }
+                UpdateProgressBar();
+                this.enabled = false;
             }
-
-            catch { Debug.Log("<b>[Modern UI Pack]</b> No UI Manager found, assign it manually.", this); }
         }
 
-        void LateUpdate()
+        void Update()
         {
-            if (UIManagerAsset == null)
-                return;
-
-            if (UIManagerAsset.enableDynamicUpdate == true)
-                UpdateProgressBar();
+            if (UIManagerAsset == null) { return; }
+            if (UIManagerAsset.enableDynamicUpdate == true) { UpdateProgressBar(); }
         }
 
         void UpdateProgressBar()
         {
-            if (Application.isPlaying && webglMode == true)
-                return;
-
-            try
+            if (overrideColors == false)
             {
                 bar.color = UIManagerAsset.progressBarColor;
                 background.color = UIManagerAsset.progressBarBackgroundColor;
                 label.color = UIManagerAsset.progressBarLabelColor;
+            }
+
+            if (overrideFonts == false)
+            {
                 label.font = UIManagerAsset.progressBarLabelFont;
                 label.fontSize = UIManagerAsset.progressBarLabelFontSize;
             }
-
-            catch { }
         }
     }
 }

@@ -1,19 +1,20 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using UnityEngine.Events;
+using TMPro;
 
-namespace Michsky.UI.ModernUIPack
+namespace Michsky.MUIP
 {
+    [RequireComponent(typeof(CanvasGroup))]
     public class ModalWindowManager : MonoBehaviour
     {
         // Resources
         public Image windowIcon;
         public TextMeshProUGUI windowTitle;
         public TextMeshProUGUI windowDescription;
-        public Button confirmButton;
-        public Button cancelButton;
+        public ButtonManager confirmButton;
+        public ButtonManager cancelButton;
         public Animator mwAnimator;
 
         // Content
@@ -22,105 +23,134 @@ namespace Michsky.UI.ModernUIPack
         [TextArea] public string descriptionText = "Description here";
 
         // Events
-        public UnityEvent onConfirm;
-        public UnityEvent onCancel;
+        public UnityEvent onOpen = new UnityEvent();
+        public UnityEvent onClose = new UnityEvent();
+        public UnityEvent onConfirm = new UnityEvent();
+        public UnityEvent onCancel = new UnityEvent();
 
         // Settings
-        public bool sharpAnimations = false;
-        public bool useCustomValues = false;
-        public bool destroyOnClose = false;
-
+        public bool useCustomContent = false;
         public bool isOn = false;
+        public bool closeOnCancel = true;
+        public bool closeOnConfirm = true;
+        public bool showCancelButton = true;
+        public bool showConfirmButton = true;
+        public StartBehaviour startBehaviour = StartBehaviour.Disable;
+        public CloseBehaviour closeBehaviour = CloseBehaviour.Disable;
+        public OnEnableBehaviour onEnableBehaviour = OnEnableBehaviour.None;
 
-        void Start()
+        // Helpers
+        float cachedStateLength;
+
+        public enum StartBehaviour { None, Disable, Enable }
+        public enum CloseBehaviour { None, Disable, Destroy }
+        public enum OnEnableBehaviour { None, Restore }
+
+        void Awake()
         {
-            if (mwAnimator == null)
-                mwAnimator = gameObject.GetComponent<Animator>();
+            isOn = false;
 
-            if (confirmButton != null)
-                confirmButton.onClick.AddListener(onConfirm.Invoke);
+            if (mwAnimator == null) { mwAnimator = gameObject.GetComponent<Animator>(); }
+            if (closeOnCancel) { onCancel.AddListener(CloseWindow); }
+            if (closeOnConfirm) { onConfirm.AddListener(CloseWindow); }
+            if (confirmButton != null) { confirmButton.onClick.AddListener(onConfirm.Invoke); }
+            if (cancelButton != null) { cancelButton.onClick.AddListener(onCancel.Invoke); }
+            if (startBehaviour == StartBehaviour.Disable) { isOn = false; gameObject.SetActive(false); }
+            else if (startBehaviour == StartBehaviour.Enable) { isOn = false; OpenWindow(); }
 
-            if (cancelButton != null)
-                cancelButton.onClick.AddListener(onCancel.Invoke);
+            cachedStateLength = MUIPInternalTools.GetAnimatorClipLength(mwAnimator, MUIPInternalTools.modalWindowStateName);
+            UpdateUI();
+        }
 
-            if (useCustomValues == false)
-                UpdateUI();
+        void OnEnable()
+        {
+            if (onEnableBehaviour == OnEnableBehaviour.Restore && isOn) 
+            {
+                isOn = false;
+                Open(); 
+            }
+        }
+
+        void OnDisable()
+        {
+            if (onEnableBehaviour == OnEnableBehaviour.None)
+            {
+                isOn = false;
+            }
         }
 
         public void UpdateUI()
         {
-            try
-            {
-                windowIcon.sprite = icon;
-                windowTitle.text = titleText;
-                windowDescription.text = descriptionText;
-            }
+            if (useCustomContent)
+                return;
 
-            catch
-            {
-                Debug.LogWarning("Modal Window - Cannot update the content due to missing variables.", this);
-            }
+            if (windowIcon != null) { windowIcon.sprite = icon; }
+            if (windowTitle != null) { windowTitle.text = titleText; }
+            if (windowDescription != null) { windowDescription.text = descriptionText; }
+
+            if (showCancelButton && cancelButton != null) { cancelButton.gameObject.SetActive(true); }
+            else if (cancelButton != null) { cancelButton.gameObject.SetActive(false); }
+
+            if (showConfirmButton && confirmButton != null) { confirmButton.gameObject.SetActive(true); }
+            else if (confirmButton != null) { confirmButton.gameObject.SetActive(false); }
         }
 
-        public void OpenWindow()
+        public void Open()
         {
-            if (isOn == false)
-            {
-                if (sharpAnimations == false)
-                    mwAnimator.CrossFade("Fade-in", 0.1f);
-                else
-                    mwAnimator.Play("Fade-in");
+            if (isOn)
+                return;
 
-                isOn = true;
-            }
+            isOn = true;
+            gameObject.SetActive(true);
+            onOpen.Invoke();
+
+            StopCoroutine("DisableObject");
+            mwAnimator.Play("Fade-in");
         }
 
-        public void CloseWindow()
+        public void Close()
         {
-            if (isOn == true)
-            {
-                if (sharpAnimations == false)
-                    mwAnimator.CrossFade("Fade-out", 0.1f);
-                else
-                    mwAnimator.Play("Fade-out");
+            if (!isOn)
+                return;
 
-                isOn = false;
+            isOn = false;
+            onClose.Invoke();
 
-                if (destroyOnClose == true)
-                    StartCoroutine("DestroyModal");
-            }
+            mwAnimator.Play("Fade-out");
+            StartCoroutine("DisableObject");
         }
+
+        #region Obsolote
+        public void OpenWindow() { Open(); }
+        public void CloseWindow() { Close(); }
+        #endregion
 
         public void AnimateWindow()
         {
-            if (isOn == false)
+            if (!isOn)
             {
-                if (sharpAnimations == false)
-                    mwAnimator.CrossFade("Fade-in", 0.1f);
-                else
-                    mwAnimator.Play("Fade-in");
+                StopCoroutine("DisableObject");
 
                 isOn = true;
+                gameObject.SetActive(true);
+                mwAnimator.Play("Fade-in");
             }
 
             else
             {
-                if (sharpAnimations == false)
-                    mwAnimator.CrossFade("Fade-out", 0.1f);
-                else
-                    mwAnimator.Play("Fade-out");
-
                 isOn = false;
+                mwAnimator.Play("Fade-out");
 
-                if (destroyOnClose == true)
-                    StartCoroutine("DestroyModal");
+                StartCoroutine("DisableObject");
             }
         }
 
-        IEnumerator DestroyModal()
+        IEnumerator DisableObject()
         {
-            yield return new WaitForSeconds(1f);
-            Destroy(gameObject);
+            yield return new WaitForSecondsRealtime(cachedStateLength);
+
+            if (closeBehaviour == CloseBehaviour.Disable) { gameObject.SetActive(false); }
+            else if (closeBehaviour == CloseBehaviour.Destroy) { Destroy(gameObject); }
         }
     }
 }

@@ -1,13 +1,15 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using TMPro;
 
-namespace Michsky.UI.ModernUIPack
+namespace Michsky.MUIP
 {
+    [DisallowMultipleComponent]
     [RequireComponent(typeof(Animator))]
-    public class NotificationManager : MonoBehaviour
+    public class NotificationManager : MonoBehaviour, IPointerClickHandler
     {
         // Content
         public Sprite icon;
@@ -24,81 +26,103 @@ namespace Michsky.UI.ModernUIPack
         public bool enableTimer = true;
         public float timer = 3f;
         public bool useCustomContent = false;
+        public bool closeOnClick = false;
         public bool useStacking = false;
-        public bool destroyAfterPlaying = false;
-        public NotificationStyle notificationStyle;
+        [HideInInspector] public bool isOn;
+        public StartBehaviour startBehaviour = StartBehaviour.Disable;
+        public CloseBehaviour closeBehaviour = CloseBehaviour.Disable;
 
-        public enum NotificationStyle
+        // Events
+        public UnityEvent onOpen;
+        public UnityEvent onClose;
+
+        public enum StartBehaviour { None, Disable }
+        public enum CloseBehaviour { None, Disable, Destroy }
+
+        void Awake()
         {
-            FADING,
-            POPUP,
-            SLIDING
-        }
+            isOn = false;
 
-        void Start()
-        {
-            if (notificationAnimator == null)
-                notificationAnimator = gameObject.GetComponent<Animator>();
-        
-            if (useCustomContent == false)
-            {
-                try { UpdateUI(); }
-                catch { Debug.LogError("<b>[Notification]</b> Cannot initalize the object due to missing components.", this); }
-            }
-
-            if (useStacking == true)
+            if (!useCustomContent) { UpdateUI(); }
+            if (notificationAnimator == null) { notificationAnimator = gameObject.GetComponent<Animator>(); }
+            if (startBehaviour == StartBehaviour.Disable) { gameObject.SetActive(false); }
+            if (useStacking)
             {
                 try
                 {
                     NotificationStacking stacking = transform.GetComponentInParent<NotificationStacking>();
                     stacking.notifications.Add(this);
                     stacking.enableUpdating = true;
-                    gameObject.SetActive(false);
                 }
 
                 catch { Debug.LogError("<b>[Notification]</b> 'Stacking' is enabled but 'Notification Stacking' cannot be found in parent.", this); }
             }
         }
 
-        public void OpenNotification()
+        public void Open()
         {
-            StopCoroutine("StartTimer");
-            notificationAnimator.Play("In");
+            if (isOn)
+                return;
 
-            if (enableTimer == true)
-                StartCoroutine("StartTimer");
+            gameObject.SetActive(true);
+            isOn = true;
+
+            StopCoroutine("StartTimer");
+            StopCoroutine("DisableNotification");
+
+            notificationAnimator.Play("In");
+            onOpen.Invoke();
+
+            if (enableTimer == true) { StartCoroutine("StartTimer"); }
         }
 
-        public void CloseNotification()
+        public void Close()
         {
-            notificationAnimator.Play("Out");
+            if (!isOn)
+                return;
 
-            if (destroyAfterPlaying == true)
-                StartCoroutine("DestroyNotification");
+            isOn = false;
+            notificationAnimator.Play("Out");
+            onClose.Invoke();
+
+            StopCoroutine("StartTimer");
+            StopCoroutine("DisableNotification");
+            StartCoroutine("DisableNotification");
+        }
+
+        // Obsolete
+        public void OpenNotification() { Open(); }
+        public void CloseNotification() { Close(); }
+
+        public void UpdateUI()
+        {
+            if (iconObj != null) { iconObj.sprite = icon; }
+            if (titleObj != null) { titleObj.text = title; }
+            if (descriptionObj != null) { descriptionObj.text = description; }
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if (!closeOnClick)
+                return;
+
+            Close();
         }
 
         IEnumerator StartTimer()
         {
             yield return new WaitForSeconds(timer);
+
             CloseNotification();
+            StartCoroutine("DisableNotification");
         }
 
-        IEnumerator DestroyNotification()
+        IEnumerator DisableNotification()
         {
             yield return new WaitForSeconds(1f);
-            Destroy(gameObject);
-        }
 
-        public void UpdateUI()
-        {
-            try
-            {
-                iconObj.sprite = icon;
-                titleObj.text = title;
-                descriptionObj.text = description;
-            }
-
-            catch { Debug.LogError("<b>[Notification]</b> Cannot update the component due to missing variables.", this); }
+            if (closeBehaviour == CloseBehaviour.Disable) { gameObject.SetActive(false); isOn = false; }
+            else if (closeBehaviour == CloseBehaviour.Destroy) { Destroy(gameObject); }
         }
     }
 }
