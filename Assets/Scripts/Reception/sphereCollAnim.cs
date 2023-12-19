@@ -25,13 +25,13 @@ public class sphereCollAnim : MonoBehaviour
                     break;
 
                 case "model2_Sphere":
-                    clipBoard.transform.localPosition = new Vector3(-0.075000003f, 0.228300005f, 0.0121999998f);
-                    clipBoard.transform.localEulerAngles = new Vector3(351.868958f, 5.08239555f, 100.135933f);
+                    clipBoard.transform.localPosition = new Vector3(0.0444f, 0.236f, 0.0445f);
+                    clipBoard.transform.localEulerAngles = new Vector3(-17.836f, -85.891f, 263.243f);
                     break;
 
                 case "model3_Sphere":
-                    clipBoard.transform.localPosition = new Vector3(-0.075000003f, 0.228300005f, 0.0121999998f);
-                    clipBoard.transform.localEulerAngles = new Vector3(351.868958f, 5.08239555f, 100.135933f);
+                    clipBoard.transform.localPosition = new Vector3(0.0444f, 0.236f, 0.0445f);
+                    clipBoard.transform.localEulerAngles = new Vector3(-17.836f, -85.891f, 263.243f);
                     break;
             }
 
@@ -48,7 +48,13 @@ public class sphereCollAnim : MonoBehaviour
             other.transform.SetParent(null);
             animateManager.instance.setPosition();
             animateManager.instance.patient.GetComponent<Animator>().Play("CheckIn ID given");
+            DL.transform.SetParent(null);
+            DL.transform.position = new Vector3(-33.0419998f, 0.732200027f, -13.307f);
+            DL.transform.localEulerAngles = new Vector3(0f, 0.146f, 359.503998f);
             DL.SetActive(true);
+            MC.transform.SetParent(null);
+            MC.transform.position = new Vector3(-33.0419998f, 0.732200027f, -13.207f);
+            MC.transform.localEulerAngles = new Vector3(0f, 0.146f, 359.503998f);
             MC.SetActive(true);
             checkGiven = true;
         }
@@ -73,7 +79,7 @@ public class sphereCollAnim : MonoBehaviour
             DL.SetActive(true);
             MC.SetActive(true);
         }
-/*
+        /*
         if(other.CompareTag("Cards") && other.GetComponent<Grabbable>().BeingHeld == false)
         {
             instructionScript.instance.id();

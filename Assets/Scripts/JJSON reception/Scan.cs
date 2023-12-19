@@ -2,11 +2,13 @@ using BNG;
 using Michsky.MUIP;
 using myData;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Scan : MonoBehaviour
 {
     public SnapZone[] snapZone;
     public string SLOT1, SLOT2;
+    public Image checkInScanImg;
 
     private void Update()
     {
@@ -29,7 +31,8 @@ public class Scan : MonoBehaviour
 
         SLOT1 = snapZone[0].HeldItem?.GetComponentInChildren<MeshRenderer>().material.mainTexture.name;
         SLOT2 = snapZone[1].HeldItem?.GetComponentInChildren<MeshRenderer>().material.mainTexture.name;
-        
+
+        checkInScanImg.sprite = fadeAndMatChange.checkInScanSprite;
 
         foreach (var item in FindObjectsOfType<CustomInputField>())
         {
@@ -63,9 +66,9 @@ public class Scan : MonoBehaviour
         }
         #endregion
 
-        #region Anne Doe
-        if ((SLOT1 == "ANNE_DL" || SLOT1 == "ANNE_HC") &&
-            (SLOT2 == "ANNE_HC" || SLOT2 == "ANNE_DL"))
+        #region Anna Doe
+        if ((SLOT1 == "ANNA_DL" || SLOT1 == "ANNA_HC") &&
+            (SLOT2 == "ANNA_HC" || SLOT2 == "ANNA_DL"))
         {
             // Personal
             DataRef.instance.currentPersonDetails.GeneralDetails.firstName.text = "Anna";

@@ -13,6 +13,8 @@ public class animateManager : MonoBehaviour
     public GameObject cards, handSphere, scannerGhost;
     public GameObject form, ID, wait;
 
+    public static bool abc;
+
     public Sounds boolRef;
     int patientIndex;
 
@@ -36,18 +38,18 @@ public class animateManager : MonoBehaviour
                 patient.transform.position = new Vector3(-34.011f, 0, -13.212f);
                 patient.transform.eulerAngles = new Vector3(0, 456.444f, 0);
 
-                /*cards.transform.localPosition = new Vector3(0, 0, 0);
-                cards.transform.localEulerAngles = new Vector3(0, 0, 0);*/
+                cards.transform.localPosition = new Vector3(0.306699991f, -0.105099998f, 0.0307f);
+                cards.transform.localEulerAngles = new Vector3(70.4637985f, 270.180664f, 276.008972f);
                 break;
 
             case "model2_Sphere":
-                cards.transform.localPosition = new Vector3(0.0130000003f, 0.00700000022f, 0.00700000022f);
-                cards.transform.localEulerAngles = new Vector3(349.084167f, 149.039474f, 263.518372f);
+                cards.transform.localPosition = new Vector3(-0.0057f, -0.0229f, -0.036f);
+                cards.transform.localEulerAngles = new Vector3(8.626f, 260.123f, -106.012f);
                 break;
 
             case "model3_Sphere":
-                cards.transform.localPosition = new Vector3(0.0130000003f, 0.00700000022f, 0.00700000022f);
-                cards.transform.localEulerAngles = new Vector3(349.084167f, 149.039474f, 263.518372f);
+                cards.transform.localPosition = new Vector3(-0.0057f, -0.0229f, -0.036f);
+                cards.transform.localEulerAngles = new Vector3(8.626f, 260.123f, -106.012f);
                 break;
         }
     }
@@ -149,6 +151,4 @@ public class animateManager : MonoBehaviour
         patient.GetComponent<Animator>().Play("CheckIn ID");
         handSphere.GetComponent<sphereCollAnim>().checkGiven = false;
     }
-
-
 }

@@ -46,7 +46,7 @@ public class fadeAndMatChange : MonoBehaviour
 
     public TMP_Text appText;
     public TMP_Text checkInTextField;
-    public Image checkInScan;
+    public static Sprite checkInScanSprite;
 
     public GameObject dialoguePanel2;
 
@@ -62,7 +62,6 @@ public class fadeAndMatChange : MonoBehaviour
     private void Start()
     {
         int patientIndex = PlayerPrefs.GetInt("patient");
-
 
         //setting patient number
         if (patientIndex > -1 && patientIndex < charMats.Count-1)
@@ -180,6 +179,6 @@ public class fadeAndMatChange : MonoBehaviour
         checkInAppClip = checkInApp.clips[opt].clip;
         appText.text = charMats[opt].appDetails;
         checkInTextField.text = charMats[opt].patientName;
-        checkInScan.sprite = charMats[opt].DLsprite;
+        checkInScanSprite = charMats[opt].DLsprite;
     }
 }

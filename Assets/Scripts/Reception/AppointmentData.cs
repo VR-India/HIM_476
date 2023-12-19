@@ -16,12 +16,12 @@ public class AppointmentData : MonoBehaviour
 
     public void FillAppointment()
     {
-        if(i < appointment.Length)
-        {
-            TMP_Text[] text = appointment[i].GetComponentsInChildren<TMP_Text>();
-            text[0].text = appointmentType.selectedText.text;
-            text[1].text = Location.selectedText.text;
-            i++;
-        }
+        if (i >= appointment.Length)
+            return;
+
+        TMP_Text[] text = appointment[i].GetComponentsInChildren<TMP_Text>();
+        text[0].text = appointmentType.selectedText.text;
+        text[1].text = Location.selectedText.text;
+        i++;
     }
 }
