@@ -8,6 +8,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/HIM476/Reception.unity
     guid: 5009885023aa14440b5179ca54b997e3
+  - enabled: 1
+    path: Assets/Scenes/HIM476/Coding and Billing.unity
+    guid: c70429332ba901d49a0702d80587d8fd
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 51527a49f413f454e98d10ca8360faea,
       type: 2}

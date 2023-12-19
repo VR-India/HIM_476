@@ -67,6 +67,10 @@ public class BillDetailsJson : MonoBehaviour
     [SerializeField]
     private CustomDropdown dropdown;
     [SerializeField]
+    private Button generateBillButton;
+    [SerializeField]
+    private Button generateFormButton;
+    [SerializeField]
     private Image claimForm;
 
     public List<Patients> patientsBillJSON;
@@ -90,7 +94,8 @@ public class BillDetailsJson : MonoBehaviour
 
     private void OnEnable()
     {
-        dropdown.onValueChanged.AddListener(delegate { FetchBillDetails(dropdown.selectedText.text, dropdown.selectedImage.sprite); });
+        dropdown.onValueChanged.AddListener(delegate { ResetButton(); });
+        generateBillButton.onClick.AddListener(delegate { FetchBillDetails(dropdown.selectedText.text, dropdown.selectedImage.sprite); });
     }
 
     private void Prefix()
@@ -117,6 +122,12 @@ public class BillDetailsJson : MonoBehaviour
         text[18].text = "Adjustments<br><br>";
         text[19].text = "Patient Responsibility<br><br>";
         #endregion
+    }
+
+    void ResetButton()
+    {
+        generateFormButton.gameObject.SetActive(false);
+        generateBillButton.gameObject.SetActive(true);
     }
 
     public void FetchBillDetails(string name, Sprite sprite)

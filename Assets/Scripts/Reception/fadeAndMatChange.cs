@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -35,7 +36,7 @@ public class fadeAndMatChange : MonoBehaviour
 
     public BNG.Button redBTN;
 
-    public GameObject patient;
+    public static GameObject patient;
     public GameObject btn;
     public GameObject ghost;
     public AudioSource source;
@@ -50,6 +51,18 @@ public class fadeAndMatChange : MonoBehaviour
 
     public GameObject dialoguePanel2;
 
+    public enum Mode { Practice, Training }
+    public Mode mode;
+
+    public ButtonManager selectButton;
+
+    public void SetMode(int i)
+    {
+        if (i == 0)
+            mode = Mode.Practice;
+        else if (i == 1)
+            mode = Mode.Training;
+    }
     private void Awake()
     {
         //Playing Next Patient audio
@@ -58,13 +71,26 @@ public class fadeAndMatChange : MonoBehaviour
             source.Play();
         }
     }
-
+    [SerializeField]
+    private CustomDropdown dropdown;
     private void Start()
+    {
+        if (mode == Mode.Practice)
+        {
+            selectButton.onClick.AddListener(delegate { AssignPatientResource(dropdown.selectedItemIndex); });
+        }
+        else if (mode == Mode.Training)
+        {
+            
+        }
+    }
+
+    public void Training()
     {
         int patientIndex = PlayerPrefs.GetInt("patient");
 
         //setting patient number
-        if (patientIndex > -1 && patientIndex < charMats.Count-1)
+        if (patientIndex > -1 && patientIndex < charMats.Count - 1)
         {
             int x = patientIndex + 1;
             PlayerPrefs.SetInt("patient", x);
@@ -73,8 +99,8 @@ public class fadeAndMatChange : MonoBehaviour
             PlayerPrefs.SetInt("patient", 0);
 
         Debug.Log(" current patient number from list: " + patientIndex);
-        
-        changeMat(patientIndex);
+
+        AssignPatientResource(patientIndex);
 
         if (boolRef.LoadScene_valid)
         {
@@ -166,7 +192,7 @@ public class fadeAndMatChange : MonoBehaviour
         redBTN.enabled = false;
     }
 
-    void changeMat(int opt)
+    void AssignPatientResource(int opt)
     {
         patient = charMats[opt].patientPrefab;
         animateManager.instance.patient = patient;
@@ -180,5 +206,12 @@ public class fadeAndMatChange : MonoBehaviour
         appText.text = charMats[opt].appDetails;
         checkInTextField.text = charMats[opt].patientName;
         checkInScanSprite = charMats[opt].DLsprite;
+
+        if (mode == Mode.Practice)
+        {
+            patient.SetActive(true);
+            btn.GetComponent<Button>().interactable = true;
+            btn.GetComponent<ButtonManager>().isInteractable = true;
+        }
     }
 }
