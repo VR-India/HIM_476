@@ -10,7 +10,7 @@ public class InstructionPrompterReception : MonoBehaviour, IObserver
         if(Instance == null)
             Instance = this;
 
-        Invoke(nameof(redButton), instructionsSO.clips[0].time);
+        //Invoke(nameof(redButton), instructionsSO.clips[0].time);
     }
 
     [SerializeField] subject _sub;
@@ -20,6 +20,7 @@ public class InstructionPrompterReception : MonoBehaviour, IObserver
         switch(action)
         {
             case ButtonPressAction.dialoguePanel:
+                instructionsSO.Instruction_validForOnce = false;
                 Invoke(nameof(dpDelay), instructionsSO.clips[1].time);
                 break;
 

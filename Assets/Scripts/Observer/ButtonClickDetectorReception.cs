@@ -21,12 +21,11 @@ public enum ButtonPressAction
 
 public class ButtonClickDetectorReception : subject
 {
-    public ButtonManager fillForm, askId, twoMins, doctorFree;
-    public BNG.Button redBtn;
+    public ButtonManager fillForm, askId, twoMins, doctorFree, practiceSelect;
 
     private void Start()
     {
-        redBtn.onButtonDown.AddListener(() => NotifyObserver(ButtonPressAction.dialoguePanel));
+        practiceSelect.onClick.AddListener(() => NotifyObserver(ButtonPressAction.dialoguePanel));
         //redBtn.onClick.AddListener(() => NotifyObserver(ButtonPressAction.dialoguePanel));
         fillForm.onClick.AddListener(() => NotifyObserver(ButtonPressAction.giveClipboard));
         askId.onClick.AddListener(() => NotifyObserver(ButtonPressAction.scanID));

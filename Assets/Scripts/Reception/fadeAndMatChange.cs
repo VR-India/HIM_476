@@ -56,6 +56,8 @@ public class fadeAndMatChange : MonoBehaviour
 
     public ButtonManager selectButton;
 
+    public ActivePatientData sendPatientData; 
+
     public void SetMode(int i)
     {
         if (i == 0)
@@ -194,6 +196,9 @@ public class fadeAndMatChange : MonoBehaviour
 
     void AssignPatientResource(int opt)
     {
+        sendPatientData.currentPatinetIndex = opt;
+        sendPatientData.currentPatientName = charMats[opt].name;
+
         patient = charMats[opt].patientPrefab;
         animateManager.instance.patient = patient;
         animateManager.instance.handSphere = charMats[opt].handSphere;
