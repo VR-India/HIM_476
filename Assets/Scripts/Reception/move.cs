@@ -8,6 +8,7 @@ using UnityEngine;
 public class move : MonoBehaviour
 {
     public float speed;
+    public float resetSpeed;
     public Collider coll;
     public List<AnimatorClipInfo> clip;
     void Start()
@@ -18,7 +19,7 @@ public class move : MonoBehaviour
     private void OnEnable()
     {
         //if (this.gameObject.name == "Emily" || this.gameObject.name == "Davin")
-            speed = 2;
+            speed = resetSpeed;
     }
 
     void Update()

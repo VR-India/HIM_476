@@ -9,6 +9,7 @@ TagManager:
   - mod1
   - mod2
   - insuranceDD
+  - Wrist
   layers:
   - Default
   - TransparentFX

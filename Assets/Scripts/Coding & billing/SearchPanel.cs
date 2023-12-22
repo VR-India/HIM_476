@@ -3,83 +3,44 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using Newtonsoft.Json;
 
 public class SearchPanel : MonoBehaviour
 {
-    public static SearchPanel Instance { get; private set; }  
-    public TMP_InputField searchInput;
-    public Dropdown suggestionDropdown;
-    public List<string> allWords; // List of all words to search from
+    public static SearchPanel Instance { get; private set; }
+
+    private TMP_InputField searchInput;
+    private Dropdown suggestionDropdown;
+
     public GameObject DiabetesPanel;
     public GameObject Reason;
     public GameObject HyperTensionPanel;
     public GameObject AnxietyPanel;
 
-    public List<string> filteredWords; // List of filtered words based on the search input
-
-
-    public Dictionary<string, string> myDictionary = new Dictionary<string, string>()
-    {
-       { "Z02.9", "Encounter for administrative examinations,unspecified" },
-       { "Ell.9", "Type 2 diabetes mellitus without complications" },
-        {"I10", "Essential (primary) hypertension" },
-        {"F41.9", "Anxiety disorder, unspecified" },
-        {"D64.9", "Anemia, unspecified" },
-        {"D75.1", "Secondary polycythemia" },
-        {"E11.621", "Type 2 diabetes mellitus with foot ulcer" },
-        {"E11.9", "Type 2 diabetes mellitus without complications" },
-        {"E78.5", "Hyperlipidemia, unspecified" },
-        {"F32.9", "Major depressive disorder, single episode, unspecified" },
-        {"F41.8", "Other specified anxiety disorders" },
-        {"F80.9", "Developmental disorder of speech and language, unspecified" },
-        {"F90.9", "Attention-deficit hyperactivity disorder, unspecified type" },
-        {"I48.91", "Unspecified atrial fibrillation" },
-        {"I50.9", "Heart failure, unspecified" },
-        {"J01.00", "Acute maxillary sinusitis, unspecified" },
-        {"J02.9", "Acute pharyngitis, unspecified" },
-        {"J06.9", "Acute upper respiratory infection, unspecified" },
-        {"J30.2", "Other seasonal allergic rhinitis" },
-        {"J32.9", "Chronic sinusitis, unspecified" },
-        {"J44.9", "Chronic obstructive pulmonary disease, unspecified " },
-        {"M54.5", "Low back pain" },
-        {"R05", "Cough" },
-        {"R06.02", "Shortness of breath" },
-        {"R07.89", "Other chest pain" },
-        {"R07.9", "Chest pain, unspecified" },
-        {"R11.2", "Nausea with vomiting, unspecified" },
-        {"R42", "Dizziness and giddiness" },
-        {"R50.9", "Fever, unspecified" },
-        {"R51.9", "Headache, unspecified" },
-        {"Z00.00", "Encounter for general adult medical examination without abnormal findings" },
-        {"Z00.121", "Encounter for routine child health examination with abnormal findings"},
-        {"Z00.129", "Encounter for routine child health examination without abnormal findings" },
-        {"Z09", "Encounter for follow-up examination after completed treatment for conditions other than malignant neoplasm" },
-        {"Z11.59", "Encounter for screening for other viral diseases" },
-        {"Z12.31", "Encounter for screening mammogram for malignant neoplasm of breast " },
-        {"Z20.822" , "Contact with and (suspected) exposure to COVIDI 9"},
-        {"Z20.828", "Contact with and (suspected) exposure to other viral communicable diseases" },
-        {"Z23", "Encounter for immunization" },
-        {"Z51.6" , "Encounter for desensitization to allergens"},
-        {"Z71.3" , "Dietary counseling and surveillance"},
-        {"Z79.01", "Long term (current) use of anticoagulants" },
-        {"Z91.09", "Other allergy status, other than to drugs and biological substances" },
-        {"U07.1", "COVID-19" },
-        {"N39.0", "Urinary tract infection, site not specified" },
-        {"Z00.01", "Encounter for general adult medical examination with abnormal findings"},
-        {"R10.9", "Unspecified abdominal pain" },
-    };
+    public Dictionary<string, string> codes = new Dictionary<string, string>();
+    private List<string> allWords = new(); // List of all words to search from
+    private List<string> filteredWords = new(); // List of filtered words based on the search input
 
     private void Awake()
     {
+        string json = Resources.Load<TextAsset>("jsonBillData/code").text;
+        codes = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+
+        if (Instance != null)
+            return;
+
         Instance = this;
     }
+
     private void Start()
     {
         // Add a listener to the search input's OnValueChanged event
         // searchInput.onEndEdit.AddListener(OnSearchInputValueChanged);
         //searchInput.onValueChanged.AddListener(callFunc);
+        searchInput = GetComponentInChildren<TMP_InputField>();
+        suggestionDropdown = GetComponentInChildren<Dropdown>();
 
-        foreach (var kvp in myDictionary)
+        foreach (var kvp in codes)
         {
             allWords.Add(kvp.Key);
         }
@@ -104,7 +65,7 @@ public class SearchPanel : MonoBehaviour
         suggestionDropdown.AddOptions(filteredWords);
 
         suggestionDropdown.Show();
-        if(searchValue.Contains("Diabetes") || searchValue.Contains("diabetes"))
+        if (searchValue.Contains("Diabetes") || searchValue.Contains("diabetes"))
         {
             AddCoding.name = searchValue;
             DiabetesPanel?.SetActive(true);
@@ -116,7 +77,7 @@ public class SearchPanel : MonoBehaviour
             HyperTensionPanel?.SetActive(true);
             Reason?.SetActive(false);
         }
-        else if(searchValue.Contains("Anxiety") || searchValue.Contains("anxiety"))
+        else if (searchValue.Contains("Anxiety") || searchValue.Contains("anxiety"))
         {
             AddCoding.name = searchValue;
             AnxietyPanel?.SetActive(true);
@@ -176,7 +137,7 @@ public class SearchPanel : MonoBehaviour
         {
             AddCoding.name = searchInput.text;
 
-            if(DiabetesPanel != null)
+            if (DiabetesPanel != null)
                 DiabetesPanel.SetActive(false);
             if (Reason != null)
                 Reason.SetActive(true);

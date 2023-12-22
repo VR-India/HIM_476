@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -51,7 +50,6 @@ public class fadeAndMatChange : MonoBehaviour
 
     public GameObject dialoguePanel2;
 
-    public enum Mode { Practice, Training }
     public Mode mode;
 
     public ButtonManager selectButton;
@@ -61,9 +59,9 @@ public class fadeAndMatChange : MonoBehaviour
     public void SetMode(int i)
     {
         if (i == 0)
-            mode = Mode.Practice;
+            sendPatientData.mode = Mode.Practice;
         else if (i == 1)
-            mode = Mode.Training;
+            sendPatientData.mode = Mode.Training;
     }
     private void Awake()
     {
@@ -77,11 +75,11 @@ public class fadeAndMatChange : MonoBehaviour
     private CustomDropdown dropdown;
     private void Start()
     {
-        if (mode == Mode.Practice)
+        if (sendPatientData.mode == Mode.Practice)
         {
             selectButton.onClick.AddListener(delegate { AssignPatientResource(dropdown.selectedItemIndex); });
         }
-        else if (mode == Mode.Training)
+        else if (sendPatientData.mode == Mode.Training)
         {
             
         }
