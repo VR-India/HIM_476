@@ -8,6 +8,7 @@ TagManager:
   - Clipboard
   - mod1
   - mod2
+  - insuranceDD
   layers:
   - Default
   - TransparentFX
