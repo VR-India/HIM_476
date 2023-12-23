@@ -11,6 +11,9 @@ public class PatientManager : MonoBehaviour
     [SerializeField]
     private ActivePatientData receivePatientData;
 
+    [SerializeField]
+    private AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,5 +24,15 @@ public class PatientManager : MonoBehaviour
         codingDropdown.selectedText.text = codingDropdown.items[receivePatientData.currentPatinetIndex].itemName;
         billingDropdown.selectedText.text = billingDropdown.items[receivePatientData.currentPatinetIndex].itemName;
         billingDropdown.selectedImage.sprite = billingDropdown.items[receivePatientData.currentPatinetIndex].itemIcon;
+
+        if(receivePatientData.mode == Mode.Practice)
+        {
+            audioSource.enabled = true;
+        }
+
+        else if (receivePatientData.mode == Mode.Training)
+        {
+            audioSource.enabled = false;
+        }
     }
 }

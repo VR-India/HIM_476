@@ -54,6 +54,8 @@ public class UI_Manager : MonoBehaviour
                 break;
             case "Ok(related)":
                 turnOff(11);
+                json.Guarantor_SecondPageData();
+                json.FillRelated();
                 break;
             case "NEXT button(Relationship)":
                 turnOff(9);

@@ -3,7 +3,7 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
     //public Sounds sounds;
-    public AudioSource audioSource, source2;
+    public AudioSource audioSource;
     public static SoundManager instance;
     void Awake()
     {
@@ -13,7 +13,6 @@ public class SoundManager : MonoBehaviour
     public void PlayClipOneShot(AudioClip _clip, bool validForOnce)
     {
         audioSource.Stop();
-        //source2.Stop();
         if(!audioSource.isPlaying && !validForOnce)
         {
             audioSource.PlayOneShot(_clip);
@@ -23,7 +22,6 @@ public class SoundManager : MonoBehaviour
     public void PlayClipOneShot(AudioClip _clip)
     {
         audioSource.Stop();
-        //source2.Stop();
         if (!audioSource.isPlaying)
         {
             audioSource.PlayOneShot(_clip);
