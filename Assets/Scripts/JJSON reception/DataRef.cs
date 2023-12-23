@@ -112,6 +112,7 @@ namespace myData
 
         public CustomDropdown healthPlans;
         public CustomDropdown payer;
+        public CustomDropdown financialClass;
         public CustomDropdown city;
         public CustomDropdown state;
         public CustomDropdown county;

@@ -119,6 +119,7 @@ public class Insurance
 {
     public string healthPlans;
     public string payer;
+    public string financialClass;
     public string addressLine1;
     public string addressLine2;
     public string zipCode;
@@ -134,6 +135,7 @@ public class Insurance
     public List<TMP_Text> displaySeqInsurance;
     public List<TMP_Text> displayHealthPlansInsurance;
     public List<TMP_Text> displayPayerInsurance;
+    public List<TMP_Text> displayFinancialClass;
     public List<TMP_Text> displaySubscriberInsurance;
     public List<TMP_Text> displayMemberInsurance;
     public List<TMP_Text> displayGroupNumberInsurance;
@@ -226,6 +228,7 @@ public class Data : MonoBehaviour
             insurance.displaySeqInsurance[iInsurance].text = "000" + (iInsurance + 1);
             insurance.displayHealthPlansInsurance[iInsurance].text = insurance.healthPlans;
             insurance.displayPayerInsurance[iInsurance].text = insurance.payer;
+            insurance.displayFinancialClass[iInsurance].text = insurance.financialClass;
             insurance.displaySubscriberInsurance[iInsurance].text = insurance.subscriberMember;
             insurance.displayMemberInsurance[iInsurance].text = "";
             insurance.displayGroupNumberInsurance[iInsurance].text = insurance.groupNumber;
@@ -410,7 +413,8 @@ public class Data : MonoBehaviour
         var insurance = patientDetails.patientInsurance.insurance;
 
         insurance.healthPlans = currentRef_Auth.healthPlans.selectedText.text;
-        insurance.payer = currentRef_Auth.payer.selectedText.text;
+        insurance.payer = null; //currentRef_Auth.payer.selectedText.text;
+        insurance.financialClass = currentRef_Auth.financialClass.selectedText.text;
         insurance.addressLine1 = currentRef_Auth.addressLine1.text;
         insurance.addressLine2 = currentRef_Auth.addressLine2.text;
         insurance.zipCode = currentRef_Auth.zipCode.text;
