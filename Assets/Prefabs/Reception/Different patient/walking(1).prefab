@@ -2778,6 +2778,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
+  resetSpeed: 0
   coll: {fileID: 0}
 --- !u!1 &6994722446117681611
 GameObject:
