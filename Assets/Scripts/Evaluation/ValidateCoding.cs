@@ -65,7 +65,7 @@ public class ValidateCoding : MonoBehaviour
                 if (currentCode[i] != addedCodes.codeGO[i].GetComponentInChildren<TMP_Text>().text)
                 {
                     resultPanel.gameObject.SetActive(true);
-                    resultPanel.GetComponent<TMP_Text>().text = "Codes Mismatch";
+                    resultPanel.GetComponentInChildren<TMP_Text>().text = "Codes Mismatch";
                     Debug.Log("Codes Mismatch");
                 }
                 else
@@ -79,7 +79,7 @@ public class ValidateCoding : MonoBehaviour
         else
         {
             resultPanel.gameObject.SetActive(true);
-            resultPanel.GetComponent<TMP_Text>().text = "Codes count incorrect";
+            resultPanel.GetComponentInChildren<TMP_Text>().text = "Codes count incorrect";
             Debug.Log("Codes count incorrect");
         }
     }
