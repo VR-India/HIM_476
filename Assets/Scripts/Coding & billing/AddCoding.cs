@@ -15,6 +15,8 @@ public class AddCoding : MonoBehaviour
 
     public void InstantiateOnClick()
     {
+        name = CodeInput.text;
+
         if (name != null)
         {
             if (name.Contains("Diabetes") || name.Contains("diabetes"))
@@ -67,7 +69,7 @@ public class AddCoding : MonoBehaviour
             {
                 GameObject temp = Instantiate(codeDetailsPrefab, this.transform);
                 tMP_Texts = temp.GetComponentsInChildren<TMP_Text>();
-                foreach (var kvp in SearchPanel.Instance.codes)
+                foreach (var kvp in SearchBar.codes)//SearchBar.Instance.codes)
                 {
                     if (kvp.Key == CodeInput.text)
                     {

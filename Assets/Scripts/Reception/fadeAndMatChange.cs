@@ -157,13 +157,13 @@ public class fadeAndMatChange : MonoBehaviour
                 patient.transform.eulerAngles = new Vector3(0, 308.770355f, 0);
                 break;
             case "model2_Sphere":
-                patient.transform.localPosition = new Vector3(0.239999995f, -2.15700006f, -0.379999995f);
+                patient.transform.localPosition = new Vector3(-37.3799973f, 0.0255422592f, -12.2589998f);
                 patient.transform.eulerAngles = new Vector3(0, 106.290787f, 0);
                 break;
 
             case "model3_Sphere":
-                patient.transform.localPosition = new Vector3(0.239999995f, -2.15700006f, -0.379999995f);
-                patient.transform.eulerAngles = new Vector3(0, 105.450195f, 0);
+                patient.transform.localPosition = new Vector3(-37.3799973f, 0.0255422592f, -12.2589998f);
+                patient.transform.eulerAngles = new Vector3(0, 106.290787f, 0);
                 break;
         }
     }

@@ -10,6 +10,7 @@ public class ActivePatientData : ScriptableObject
 {
     public int currentPatinetIndex;
     public string currentPatientName;
+    public bool insuranceDDCheck;
 
     public Mode mode;
 }

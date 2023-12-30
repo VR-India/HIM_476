@@ -1,4 +1,6 @@
 using Michsky.MUIP;
+using System.Runtime.CompilerServices;
+using TMPro;
 using UnityEngine;
 
 public class PatientManager : MonoBehaviour
@@ -13,6 +15,8 @@ public class PatientManager : MonoBehaviour
 
     [SerializeField]
     private AudioSource audioSource;
+
+    
 
     // Start is called before the first frame update
     void Start()
@@ -35,4 +39,6 @@ public class PatientManager : MonoBehaviour
             audioSource.enabled = false;
         }
     }
+
+    
 }

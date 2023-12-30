@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80659cc9884a8a143bcbaf737a9504c0, type: 3}
   m_Name: PatientDataTransfer
   m_EditorClassIdentifier: 
-  currentPatinetIndex: 11
+  currentPatinetIndex: 0
   currentPatientName: Peter Ward
-  mode: 0
+  insuranceDDCheck: 1
+  mode: 1

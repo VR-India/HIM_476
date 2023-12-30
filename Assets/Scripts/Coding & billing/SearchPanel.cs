@@ -35,7 +35,7 @@ public class SearchPanel : MonoBehaviour
     private void Start()
     {
         // Add a listener to the search input's OnValueChanged event
-        // searchInput.onEndEdit.AddListener(OnSearchInputValueChanged);
+        //searchInput.onEndEdit.AddListener(OnSearchInputValueChanged);
         //searchInput.onValueChanged.AddListener(callFunc);
         searchInput = GetComponentInChildren<TMP_InputField>();
         suggestionDropdown = GetComponentInChildren<Dropdown>();
@@ -45,6 +45,8 @@ public class SearchPanel : MonoBehaviour
             allWords.Add(kvp.Key);
         }
     }
+
+    
 
 
     public void callFunc(string s)
