@@ -1,16 +1,19 @@
-/*public enum ButtonPressAction
+/// <summary>
+/// Enumeration representing various button press actions.
+/// </summary>
+public enum ButtonPressAction
 {
-    #region coding actions
-    AppIcon,
-    OpenDoc,
-    ReportSubmit,
-    #endregion
-
-    #region reception actions
+    #region Reception Actions
     dialoguePanel,
     giveClipboard,
     scanID,
     fillDetails,
     nextScene,
     #endregion
-}*/
+
+    #region Coding Actions
+    AppIcon,
+    OpenDoc,
+    ReportSubmit,
+    #endregion
+}

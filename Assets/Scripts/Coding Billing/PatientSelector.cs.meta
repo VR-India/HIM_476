@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: da37e5d6680325342a52b0ec57b0d6ad
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - codingDropdown: {instanceID: 0}
+  - billingDropdown: {instanceID: 0}
+  - receivePatientData: {fileID: 11400000, guid: dcd57e523293026429c4a07c786059db,
+      type: 2}
+  - audioSource: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

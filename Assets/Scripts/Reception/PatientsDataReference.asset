@@ -1,0 +1,224 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0183f0e9b521ff4d8bdd725e95d6880, type: 3}
+  m_Name: PatientsDataReference
+  m_EditorClassIdentifier: 
+  charRefs:
+  - Name: Agnijeet Dawde
+    DriverLicenseMaterial: {fileID: 2800000, guid: 8a3d4ff1e9c59eb48bd4998b8ae22751,
+      type: 3}
+    HealthCardMaterial: {fileID: 2800000, guid: 205218991a21ac7469112c6616cdc492,
+      type: 3}
+    ClipboardSprite: {fileID: 21300000, guid: 8f1f428631c09ce4e88fafa68f3261d8, type: 3}
+    AppointmentDetails: Agnijeet Dawde<br>CHECK-UP<br>Headache, fever & cough
+    PatientName: 'DAWDE, AGNIJEET<br>Checkin   |       -    '
+    PatientPrefab: {fileID: 0}
+    HandSphere: {fileID: 0}
+    CardsInHand: {fileID: 0}
+    DriverLicenseSprite: {fileID: 21300000, guid: 8a3d4ff1e9c59eb48bd4998b8ae22751,
+      type: 3}
+  - Name: Anna Doe
+    DriverLicenseMaterial: {fileID: 2800000, guid: 63b44251de4c02d41a18ec5bc664850b,
+      type: 3}
+    HealthCardMaterial: {fileID: 2800000, guid: 37bd1bae41a730f4e83c0cef815e0ff2,
+      type: 3}
+    ClipboardSprite: {fileID: 21300000, guid: 3cdb0dfd77c619548b9d4a99d3fcf114, type: 3}
+    AppointmentDetails: Anne Doe<br>CHECK-UP<br>Diabetes, hyperlipidemia checkup
+    PatientName: 'DOE, ANNE<br>Checkin   |       -    '
+    PatientPrefab: {fileID: 0}
+    HandSphere: {fileID: 0}
+    CardsInHand: {fileID: 0}
+    DriverLicenseSprite: {fileID: 21300000, guid: 63b44251de4c02d41a18ec5bc664850b,
+      type: 3}
+  - Name: Davin Brown
+    DriverLicenseMaterial: {fileID: 2800000, guid: a2f620b3ddd1fbb4aad626c632adb33c,
+      type: 3}
+    HealthCardMaterial: {fileID: 2800000, guid: 36e79910eceb04f4ab96a435213c09fe,
+      type: 3}
+    ClipboardSprite: {fileID: 21300000, guid: faeb3b2cfc7aaf64c806cc75e43d4356, type: 3}
+    AppointmentDetails: Davin Brown<br>CHECK-UP<br>Alergic Reactions
+    PatientName: 'BROWN, DAVIN<br>Checkin   |       -    '
+    PatientPrefab: {fileID: 0}
+    HandSphere: {fileID: 0}
+    CardsInHand: {fileID: 0}
+    DriverLicenseSprite: {fileID: 21300000, guid: a2f620b3ddd1fbb4aad626c632adb33c,
+      type: 3}
+  - Name: Emily Blum
+    DriverLicenseMaterial: {fileID: 2800000, guid: 0c9a0b7beacefaa48bdde96d0ec19bd2,
+      type: 3}
+    HealthCardMaterial: {fileID: 2800000, guid: 60a983c23ac8894439ac4da4ce333c82,
+      type: 3}
+    ClipboardSprite: {fileID: 21300000, guid: 7046aa4c762739d4f99c9341e6c3e13f, type: 3}
+    AppointmentDetails: Emily Blum<br>CHECK-UP<br>Lump in brest, Breathing Problem
+    PatientName: 'BLUM, EMILY<br>Checkin   |       -    '
+    PatientPrefab: {fileID: 0}
+    HandSphere: {fileID: 0}
+    CardsInHand: {fileID: 0}
+    DriverLicenseSprite: {fileID: 21300000, guid: 0c9a0b7beacefaa48bdde96d0ec19bd2,
+      type: 3}
+  - Name: Jason Murphy
+    DriverLicenseMaterial: {fileID: 2800000, guid: 5b627877f0f59cf488ced1328a62691c,
+      type: 3}
+    HealthCardMaterial: {fileID: 2800000, guid: 4b1a3bd80216bde4eb0b4948fe2abe11,
+      type: 3}
+    ClipboardSprite: {fileID: 21300000, guid: 6fc845867863c4f47b9da0482588f1f3, type: 3}
+    AppointmentDetails: Jason Murphy<br>CHECK-UP<br>Viral intestinal infection
+    PatientName: 'MURPHY, JASON<br>Checkin   |       -    '
+    PatientPrefab: {fileID: 0}
+    HandSphere: {fileID: 0}
+    CardsInHand: {fileID: 0}
+    DriverLicenseSprite: {fileID: 21300000, guid: 5b627877f0f59cf488ced1328a62691c,
+      type: 3}
+  - Name: Jessica James
+    DriverLicenseMaterial: {fileID: 2800000, guid: 94b0d90dcb772494d8826dace6b34df6,
+      type: 3}
+    HealthCardMaterial: {fileID: 2800000, guid: 3c9a92d07cb07f949828acd1fdb92300,
+      type: 3}
+    ClipboardSprite: {fileID: 21300000, guid: cd8333c31dfe70b40a7c1121a514b8ba, type: 3}
+    AppointmentDetails: Jessica James<br>CHECK-UP<br>full body cramps
+    PatientName: 'JAMES, JESSICA<br>Checkin   |       -    '
+    PatientPrefab: {fileID: 0}
+    HandSphere: {fileID: 0}
+    CardsInHand: {fileID: 0}
+    DriverLicenseSprite: {fileID: 21300000, guid: 94b0d90dcb772494d8826dace6b34df6,
+      type: 3}
+  - Name: John Doe
+    DriverLicenseMaterial: {fileID: 2800000, guid: 1cc57e7122398de468cefb059556a78e,
+      type: 3}
+    HealthCardMaterial: {fileID: 2800000, guid: b41b5575ede77f34681ef3a1a425d7b8,
+      type: 3}
+    ClipboardSprite: {fileID: 21300000, guid: d9a1f8b03738b1d4894e928227359b3d, type: 3}
+    AppointmentDetails: John Doe<br>CHECK-UP<br>Wellness Exam
+    PatientName: 'DOE, JOHN<br>Checkin   |       -    '
+    PatientPrefab: {fileID: 0}
+    HandSphere: {fileID: 0}
+    CardsInHand: {fileID: 0}
+    DriverLicenseSprite: {fileID: 21300000, guid: 1cc57e7122398de468cefb059556a78e,
+      type: 3}
+  - Name: Johnny Blunt
+    DriverLicenseMaterial: {fileID: 2800000, guid: 5ef33b3cec8d2a247bde4873103e9d3d,
+      type: 3}
+    HealthCardMaterial: {fileID: 2800000, guid: 14a7ad42efd8c5448a6953f96f891b6a,
+      type: 3}
+    ClipboardSprite: {fileID: 21300000, guid: 587fbbd313a4c9f43a14c5d48e71a28e, type: 3}
+    AppointmentDetails: Johnny Blunt<br>CHECK-UP<br>Chills, body ache, shortness
+      in breath
+    PatientName: 'BLUNT, JOHNNY<br>Checkin   |       -    '
+    PatientPrefab: {fileID: 0}
+    HandSphere: {fileID: 0}
+    CardsInHand: {fileID: 0}
+    DriverLicenseSprite: {fileID: 21300000, guid: 5ef33b3cec8d2a247bde4873103e9d3d,
+      type: 3}
+  - Name: June Smith
+    DriverLicenseMaterial: {fileID: 2800000, guid: 9a6741d5b2aafc440b04632676e1cd84,
+      type: 3}
+    HealthCardMaterial: {fileID: 2800000, guid: 88dca061d041a2a4596563e6a38f66c8,
+      type: 3}
+    ClipboardSprite: {fileID: 21300000, guid: cbfdca133a220b841a56ee327e353cc8, type: 3}
+    AppointmentDetails: June Smith<br>CHECK-UP<br>Pre employment physical
+    PatientName: 'SMITH, JUNE<br>Checkin   |       -    '
+    PatientPrefab: {fileID: 0}
+    HandSphere: {fileID: 0}
+    CardsInHand: {fileID: 0}
+    DriverLicenseSprite: {fileID: 21300000, guid: 9a6741d5b2aafc440b04632676e1cd84,
+      type: 3}
+  - Name: Karthika Sampedu
+    DriverLicenseMaterial: {fileID: 2800000, guid: e485b5f5627ac8d46a9dde807726b959,
+      type: 3}
+    HealthCardMaterial: {fileID: 2800000, guid: aac14922a4b01fa40bd67f7ff7b7556f,
+      type: 3}
+    ClipboardSprite: {fileID: 21300000, guid: 469db2c6cae13b84e8571a5430500058, type: 3}
+    AppointmentDetails: Karthika Sampedu<br>CHECK-UP<br>Swelling in toe
+    PatientName: 'SAMPEDU, KARTHIKA<br>Checkin   |       -    '
+    PatientPrefab: {fileID: 0}
+    HandSphere: {fileID: 0}
+    CardsInHand: {fileID: 0}
+    DriverLicenseSprite: {fileID: 21300000, guid: e485b5f5627ac8d46a9dde807726b959,
+      type: 3}
+  - Name: Mark Doe
+    DriverLicenseMaterial: {fileID: 2800000, guid: 37fa8de67a548c84b84ae81088bb1e0d,
+      type: 3}
+    HealthCardMaterial: {fileID: 2800000, guid: ad05ae1bddb292d4aa7c3cb5c7170a1d,
+      type: 3}
+    ClipboardSprite: {fileID: 21300000, guid: 1f8846c8db4a7704a8b9633d2a34be94, type: 3}
+    AppointmentDetails: Mark Doe<br>CHECK-UP<br>Medication refill, fatigue complain
+    PatientName: 'DOE, MARK<br>Checkin   |       -    '
+    PatientPrefab: {fileID: 0}
+    HandSphere: {fileID: 0}
+    CardsInHand: {fileID: 0}
+    DriverLicenseSprite: {fileID: 21300000, guid: 37fa8de67a548c84b84ae81088bb1e0d,
+      type: 3}
+  - Name: Peter Ward
+    DriverLicenseMaterial: {fileID: 2800000, guid: a1ac1b5a472bd754b8eb31acc1f2bb33,
+      type: 3}
+    HealthCardMaterial: {fileID: 2800000, guid: 454be10e4c83e8043b9d059ea582c31e,
+      type: 3}
+    ClipboardSprite: {fileID: 21300000, guid: 071d2b89e8c4a5942bda4a220acec1c7, type: 3}
+    AppointmentDetails: Peter Ward<br>CHECK-UP<br>Headache
+    PatientName: 'WARD, PETER<br>Checkin   |       -    '
+    PatientPrefab: {fileID: 0}
+    HandSphere: {fileID: 0}
+    CardsInHand: {fileID: 0}
+    DriverLicenseSprite: {fileID: 21300000, guid: a1ac1b5a472bd754b8eb31acc1f2bb33,
+      type: 3}
+  - Name: Savanna Smith
+    DriverLicenseMaterial: {fileID: 2800000, guid: 27be393220deb4f469a114444a0e3d5e,
+      type: 3}
+    HealthCardMaterial: {fileID: 2800000, guid: 9eff704d74cee9942bf23fe75f46ccaf,
+      type: 3}
+    ClipboardSprite: {fileID: 21300000, guid: 89f8fdc042385c647826900db1b7d3c4, type: 3}
+    AppointmentDetails: Savanna Smith<br>CHECK-UP<br>possible UTI symptoms
+    PatientName: 'SMITH, SAVANNA<br>Checkin   |       -    '
+    PatientPrefab: {fileID: 0}
+    HandSphere: {fileID: 0}
+    CardsInHand: {fileID: 0}
+    DriverLicenseSprite: {fileID: 21300000, guid: 27be393220deb4f469a114444a0e3d5e,
+      type: 3}
+  - Name: Srinivas Reddy
+    DriverLicenseMaterial: {fileID: 2800000, guid: 371b813535a33824e83701d64289c236,
+      type: 3}
+    HealthCardMaterial: {fileID: 2800000, guid: 4da43e45a48c1614f85c01d0fb7bacae,
+      type: 3}
+    ClipboardSprite: {fileID: 21300000, guid: cc596831e451745469c09a4d7fca5597, type: 3}
+    AppointmentDetails: Srinivas Reddy<br>CHECK-UP<br>Fatigue, headache
+    PatientName: 'REDDY, SRINIVAS<br>Checkin   |       -    '
+    PatientPrefab: {fileID: 0}
+    HandSphere: {fileID: 0}
+    CardsInHand: {fileID: 0}
+    DriverLicenseSprite: {fileID: 21300000, guid: 371b813535a33824e83701d64289c236,
+      type: 3}
+  - Name: Stephanie Doe
+    DriverLicenseMaterial: {fileID: 2800000, guid: 54b557952408aa94daec24723ec6ac12,
+      type: 3}
+    HealthCardMaterial: {fileID: 2800000, guid: 09890499134ec5b4b887c1624beba474,
+      type: 3}
+    ClipboardSprite: {fileID: 21300000, guid: 9edfc0fc39038464ea295a979741d533, type: 3}
+    AppointmentDetails: Stephanie Doe<br>CHECK-UP<br>Back pain
+    PatientName: 'DOE, STEPHANIE<br>Checkin   |       -    '
+    PatientPrefab: {fileID: 0}
+    HandSphere: {fileID: 0}
+    CardsInHand: {fileID: 0}
+    DriverLicenseSprite: {fileID: 21300000, guid: 54b557952408aa94daec24723ec6ac12,
+      type: 3}
+  - Name: William Doe
+    DriverLicenseMaterial: {fileID: 2800000, guid: 6aa0db86c44e0eb4b9e65c43255cb9b8,
+      type: 3}
+    HealthCardMaterial: {fileID: 2800000, guid: e32e5590a272b4649a6f1bc33789d4dd,
+      type: 3}
+    ClipboardSprite: {fileID: 21300000, guid: 3c140ff52bf275046825ce5bd92e4127, type: 3}
+    AppointmentDetails: William Doe<br>CHECK-UP<br>Diabetes
+    PatientName: 'DOE, WILLIAM<br>Checkin   |       -    '
+    PatientPrefab: {fileID: 0}
+    HandSphere: {fileID: 0}
+    CardsInHand: {fileID: 0}
+    DriverLicenseSprite: {fileID: 21300000, guid: 6aa0db86c44e0eb4b9e65c43255cb9b8,
+      type: 3}

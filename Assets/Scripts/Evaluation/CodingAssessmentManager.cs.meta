@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 9a17f462a8a96a04abe994f94d2f35a5
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - receiveActivePatient: {fileID: 11400000, guid: dcd57e523293026429c4a07c786059db,
+      type: 2}
+  - AssessmentSO: {fileID: 11400000, guid: f0c2c8e7405c3074cbf59ac9f1346108, type: 2}
+  - continueButton: {instanceID: 0}
+  - addedCodes: {instanceID: 0}
+  - resultPanel: {instanceID: 0}
+  - FinalNumber: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

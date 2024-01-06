@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 692b28697b68d2d4b8b86b020f5c0689
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - resultCanvas: {instanceID: 0}
+  - checkButton: {instanceID: 0}
+  - activePatient: {fileID: 11400000, guid: dcd57e523293026429c4a07c786059db, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

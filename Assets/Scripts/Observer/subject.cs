@@ -1,25 +1,40 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class subject : MonoBehaviour
+/// <summary>
+/// Abstract class representing a subject that can be observed by implementing the Observer pattern.
+/// </summary>
+public abstract class Subject : MonoBehaviour
 {
-    private List<IObserver> _observers = new List<IObserver> ();
+    /// <summary>
+    /// List of observers subscribed to this subject.
+    /// </summary>
+    private List<IObserver> _observers = new List<IObserver>();
 
-    //adds observers to the list of observers
+    /// <summary>
+    /// Adds an observer to the list of observers.
+    /// </summary>
+    /// <param name="observer">The observer to be added.</param>
     public void AddObserver(IObserver observer)
     {
         _observers.Add(observer);
     }
 
-    //removes observers to the list of observers
+    /// <summary>
+    /// Removes an observer from the list of observers.
+    /// </summary>
+    /// <param name="observer">The observer to be removed.</param>
     public void RemoveObserver(IObserver observer)
     {
         _observers.Remove(observer);
     }
 
-    //notifies observers in the list when an event occurs
+    /// <summary>
+    /// Notifies all observers in the list when a specific action occurs.
+    /// </summary>
+    /// <param name="action">The action to notify observers about.</param>
     protected void NotifyObserver(ButtonPressAction action)
     {
-        _observers.ForEach((_observer) => {_observer.OnNotify(action); } );
+        _observers.ForEach((_observer) => { _observer.OnNotify(action); });
     }
 }

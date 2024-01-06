@@ -1,25 +1,9 @@
 using Michsky.MUIP;
-using UnityEngine.UI;
-using UnityEngine;
 
-public enum ButtonPressAction
-{
-    #region coding actions
-    AppIcon,
-    OpenDoc,
-    ReportSubmit,
-    #endregion
-
-    #region reception actions
-    dialoguePanel,
-    giveClipboard,
-    scanID,
-    fillDetails,
-    nextScene,
-    #endregion
-}
-
-public class ButtonClickDetectorReception : subject
+/// <summary>
+/// Detects button clicks in the reception area and notifies observers.
+/// </summary>
+public class ButtonClickDetectorReception : Subject
 {
     public ButtonManager fillForm, askId, twoMins, doctorFree, practiceSelect;
 
