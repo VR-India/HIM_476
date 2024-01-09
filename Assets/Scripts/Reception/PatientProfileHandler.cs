@@ -66,6 +66,7 @@ public class PatientProfileHandler : MonoBehaviour
     [SerializeField]
     private CustomDropdown dropdown;
 
+    [SerializeField]
     private List<PersonDetails> patientList;
     private PersonDetails currentPatient;
 

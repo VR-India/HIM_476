@@ -302,5 +302,24 @@
     "bill Status": "Pending",
     "claims": "654654",
     "payments": 0
+  },
+  {
+    "name": "Doe Jane",
+    "account": 6548,
+    "encounter": 76105989,
+    "status": "Active",
+    "insurance pending": 1256,
+    "patient balance": 0,
+    "total balance": 1256,
+    "begin date": "01/01/2023",
+    "end date": "12/31/2023",
+    "financial class": "Commercial",
+    "type": "Emergency",
+    "location": "ABC Clinic",
+    "physician": "Dr. Green",
+    "health plan": "Blue Cross",
+    "bill Status": "Pending",
+    "claims": "654654",
+    "payments": 0
   }
 ]

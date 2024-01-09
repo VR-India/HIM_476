@@ -17,6 +17,7 @@ public class PanelButtonFetcher : MonoBehaviour
             foreach (Button button in btnsTMP)
             {
                 button.onClick.AddListener(() => UIManager.instance.btnAction(button.name));
+                button.onClick.AddListener(() => Haptics.instance.callHaptics());
             }
         }
     }
